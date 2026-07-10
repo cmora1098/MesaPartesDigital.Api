@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj": {}
+    "D:\\Proyectos\\NUEVO\\MesaPartesDigital.Api.csproj": {}
   },
   "projects": {
-    "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj": {
+    "D:\\Proyectos\\NUEVO\\MesaPartesDigital.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj",
+        "projectUniqueName": "D:\\Proyectos\\NUEVO\\MesaPartesDigital.Api.csproj",
         "projectName": "MesaPartesDigital.Api",
-        "projectPath": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj",
-        "packagesPath": "C:\\Users\\dba1_uti\\.nuget\\packages\\",
-        "outputPath": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\obj\\",
+        "projectPath": "D:\\Proyectos\\NUEVO\\MesaPartesDigital.Api.csproj",
+        "packagesPath": "C:\\Users\\programador_suti06\\.nuget\\packages\\",
+        "outputPath": "D:\\Proyectos\\NUEVO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\dba1_uti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\programador_suti06\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -30,6 +30,7 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {}
           }
@@ -44,10 +45,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "MailKit": {
@@ -82,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
