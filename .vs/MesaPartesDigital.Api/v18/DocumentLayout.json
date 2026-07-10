@@ -1,0 +1,79 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\mpd\\nueva carpeta (2)\\mesapartesdigital.api\\services\\tipodocumentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\tipodocumentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\mpd\\nueva carpeta (2)\\mesapartesdigital.api\\controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\mpd\\nueva carpeta (2)\\mesapartesdigital.api\\controllers\\documentoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\documentoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CatalogosController.cs",
+              "DocumentMoniker": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\Controllers\\CatalogosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CatalogosController.cs",
+              "ToolTip": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\Controllers\\CatalogosController.cs",
+              "RelativeToolTip": "Controllers\\CatalogosController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAACDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-10T18:43:23.386Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DocumentosController.cs",
+              "DocumentMoniker": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DocumentosController.cs",
+              "ToolTip": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
+              "RelativeToolTip": "Controllers\\DocumentosController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-10T18:43:20.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TipoDocumentoService.cs",
+              "DocumentMoniker": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\Services\\TipoDocumentoService.cs",
+              "RelativeDocumentMoniker": "Services\\TipoDocumentoService.cs",
+              "ToolTip": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Api\\Services\\TipoDocumentoService.cs",
+              "RelativeToolTip": "Services\\TipoDocumentoService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-10T18:43:03.766Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+[
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.ArchivosController",
+    "Method": "Subir",
+    "RelativePath": "api/archivos/subir",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "archivo",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.AutenticacionController",
+    "Method": "Credenciales",
+    "RelativePath": "api/autenticacion/credenciales",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "MesaPartesDigital.Api.Controllers.CredencialesRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.AutenticacionController",
+    "Method": "Login",
+    "RelativePath": "api/autenticacion/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "MesaPartesDigital.Api.Controllers.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.CatalogosController",
+    "Method": "Estados",
+    "RelativePath": "api/catalogos/estados",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.CatalogosController",
+    "Method": "TiposDocumento",
+    "RelativePath": "api/catalogos/tipos-documento",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.CatalogosController",
+    "Method": "TiposDocumentoPersona",
+    "RelativePath": "api/catalogos/tipos-documento-persona",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.CatalogosController",
+    "Method": "TiposPersona",
+    "RelativePath": "api/catalogos/tipos-persona",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.CorreosController",
+    "Method": "Cargo",
+    "RelativePath": "api/correos/cargo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "MesaPartesDigital.Api.Controllers.CargoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.CorreosController",
+    "Method": "Confirmacion",
+    "RelativePath": "api/correos/confirmacion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "MesaPartesDigital.Api.Controllers.ConfirmacionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.CorreosController",
+    "Method": "Otp",
+    "RelativePath": "api/correos/otp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "MesaPartesDigital.Api.Controllers.OtpRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "Historial",
+    "RelativePath": "api/documentos/historial/{personaId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "personaId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "Juridico",
+    "RelativePath": "api/documentos/registro-juridico",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaPartesDigital.Api.Controllers.RegistroJuridicoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "NaturalExterno",
+    "RelativePath": "api/documentos/registro-natural-externo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaPartesDigital.Models.RegistroDocumentoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "NaturalInterno",
+    "RelativePath": "api/documentos/registro-natural-interno",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaPartesDigital.Models.RegistroDocumentoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.PersonasController",
+    "Method": "Juridica",
+    "RelativePath": "api/personas/juridica",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoDocumento",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "documento",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.PersonasController",
+    "Method": "Natural",
+    "RelativePath": "api/personas/natural",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoDocumento",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "documento",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.UbigeoController",
+    "Method": "Departamentos",
+    "RelativePath": "api/ubigeo/departamentos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.UbigeoController",
+    "Method": "Distritos",
+    "RelativePath": "api/ubigeo/distritos/{codigo}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "codigo",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.UbigeoController",
+    "Method": "Provincias",
+    "RelativePath": "api/ubigeo/provincias/{codigo}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "codigo",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
