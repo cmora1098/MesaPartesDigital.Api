@@ -25,8 +25,7 @@ namespace MesaPartesDigital.Services
             {
                 CommandType = CommandType.StoredProcedure
             };
-
-
+            //comentario
             await connection.OpenAsync();
             await using var reader = await command.ExecuteReaderAsync();
 
