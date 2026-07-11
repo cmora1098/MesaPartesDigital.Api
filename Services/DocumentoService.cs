@@ -111,6 +111,7 @@ namespace MesaPartesDigital.Services
             command.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
             command.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
             command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
+            command.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
             command.Parameters.AddWithValue("@vReferencia", request.VReferencia);
             command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
             command.Parameters.AddWithValue("@btipo", request.BTipo);
@@ -158,6 +159,7 @@ namespace MesaPartesDigital.Services
             command.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
             command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
             command.Parameters.AddWithValue("@vReferencia", request.VReferencia);
+            command.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
             command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
             command.Parameters.AddWithValue("@btipo", request.BTipo);
             command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
@@ -239,6 +241,7 @@ namespace MesaPartesDigital.Services
                     command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
                     command.Parameters.AddWithValue("@btipo", request.BTipo);
                     command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
 
                     await connection.OpenAsync();
                     using (var reader = await command.ExecuteReaderAsync())

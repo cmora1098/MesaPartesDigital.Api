@@ -470,6 +470,27 @@
           }
         }
       }
+    },
+    "/api/ubigeo": {
+      "get": {
+        "tags": [
+          "Ubigeo"
+        ],
+        "parameters": [
+          {
+            "name": "codigoPadre",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -582,6 +603,10 @@
           "dFecDoc": {
             "type": "string",
             "format": "date-time"
+          },
+          "vNombreAsunto": {
+            "type": "string",
+            "nullable": true
           },
           "vReferencia": {
             "type": "string",

@@ -1,5 +1,7 @@
 using MesaPartesDigital.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace MesaPartesDigital.Api.Controllers;
 
@@ -36,6 +38,24 @@ public sealed class UbigeoController(UbigeoService service) : ControllerBase
         catch (ArgumentException ex)
         {
             return BadRequest(new { mensaje = ex.Message });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ObtenerUbigeo([FromQuery] string? codigoPadre)
+    {
+        try
+        {
+            var resultado = await service.ObtenerUbigeo(codigoPadre);
+            return Ok(resultado);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { mensaje = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { mensaje = ex.Message });
         }
     }
 }

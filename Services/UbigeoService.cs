@@ -1,7 +1,9 @@
-using System.Data;
+using MesaPartesDigital.Api.Models;
 using MesaPartesDigital.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
+using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MesaPartesDigital.Services;
 
@@ -152,5 +154,36 @@ public sealed class UbigeoService
         {
             throw new ArgumentException("El código de ubigeo debe contener exactamente 6 dígitos.", nombreParametro);
         }
+    }
+
+    public async Task<List<Ubigeo>> ObtenerUbigeo(string? codigoPadre)
+    {
+        List<Ubigeo> lista = new();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        using SqlCommand command = new SqlCommand("USP_UBIGEO_LISTAR2", connection);
+
+        command.CommandType = CommandType.StoredProcedure;
+        command.CommandTimeout = 60;
+
+        command.Parameters.Add("@CodUbigeoPadre", SqlDbType.Char, 6).Value =
+        string.IsNullOrWhiteSpace(codigoPadre)
+        ? DBNull.Value
+        : codigoPadre;
+
+        using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            lista.Add(new Ubigeo
+            {
+                vCodigo = reader["vCodigo"].ToString()!,
+                vDescripcion = reader["vDescripcion"].ToString()!
+            });
+        }
+
+        return lista;
     }
 }

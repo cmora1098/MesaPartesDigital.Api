@@ -10,6 +10,7 @@
         public int ICodTipoDoc { get; set; }
         public string VNroDoc { get; set; } = string.Empty;
         public DateTime DFecDoc { get; set; } = DateTime.Today;
+        public string VNombreAsunto { get; set; } = string.Empty;
         public string VReferencia { get; set; } = string.Empty;
         public string VNroPagFolios { get; set; } = string.Empty;
         public bool BTipo { get; set; }

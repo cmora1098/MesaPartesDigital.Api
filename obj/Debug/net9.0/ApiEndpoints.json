@@ -243,6 +243,22 @@
   },
   {
     "ContainingType": "MesaPartesDigital.Api.Controllers.UbigeoController",
+    "Method": "ObtenerUbigeo",
+    "RelativePath": "api/ubigeo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "codigoPadre",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.UbigeoController",
     "Method": "Departamentos",
     "RelativePath": "api/ubigeo/departamentos",
     "HttpMethod": "GET",
