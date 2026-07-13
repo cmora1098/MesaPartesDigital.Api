@@ -36,8 +36,8 @@ namespace MesaPartesDigital.Services
             {
                 resultado.Add(new TipoDocumento
                 {
-                    ICodTipoDoc = reader.GetInt32(ordinalCodigo),
-                    VNombreTipoDoc = reader.IsDBNull(ordinalNombre)
+                    iCodTipoDoc = reader.GetInt32(ordinalCodigo),
+                    vNombreTipoDoc = reader.IsDBNull(ordinalNombre)
                         ? string.Empty
                         : reader.GetString(ordinalNombre)
                 });

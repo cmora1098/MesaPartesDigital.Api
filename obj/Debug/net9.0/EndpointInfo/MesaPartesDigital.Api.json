@@ -179,6 +179,37 @@
         }
       }
     },
+    "/api/correos/verificar": {
+      "post": {
+        "tags": [
+          "Correos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/correos/cargo": {
       "post": {
         "tags": [
@@ -241,115 +272,42 @@
         }
       }
     },
-    "/api/documentos/registro-natural-externo": {
-      "post": {
-        "tags": [
-          "Documentos"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/documentos/registro-natural-interno": {
-      "post": {
-        "tags": [
-          "Documentos"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/documentos/registro-juridico": {
-      "post": {
-        "tags": [
-          "Documentos"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroJuridicoRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroJuridicoRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroJuridicoRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/documentos/historial/{personaId}": {
+    "/api/documentos/tipos-documento": {
       "get": {
         "tags": [
           "Documentos"
         ],
-        "parameters": [
-          {
-            "name": "personaId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/registro-natural": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroDocumentoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroDocumentoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroDocumentoRequest"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -495,6 +453,19 @@
   },
   "components": {
     "schemas": {
+      "ArchivoRequest": {
+        "type": "object",
+        "properties": {
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "CargoRequest": {
         "type": "object",
         "properties": {
@@ -576,19 +547,39 @@
       "RegistroDocumentoRequest": {
         "type": "object",
         "properties": {
-          "iCodPer": {
+          "iCodTipoDocPer": {
             "type": "integer",
             "format": "int32"
+          },
+          "vDocPer": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoMaterno": {
+            "type": "string",
+            "nullable": true
           },
           "vEmail": {
             "type": "string",
             "nullable": true
           },
-          "iCodAsunto": {
-            "type": "integer",
-            "format": "int32"
+          "vTelefono": {
+            "type": "string",
+            "nullable": true
           },
-          "vRutaDoc": {
+          "vDireccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "vCodDistrito": {
             "type": "string",
             "nullable": true
           },
@@ -616,60 +607,11 @@
             "type": "string",
             "nullable": true
           },
-          "bTipo": {
-            "type": "boolean"
-          },
-          "vLink": {
-            "type": "string",
-            "nullable": true
-          },
-          "iCodTipoDocPer": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "vDocPer": {
-            "type": "string",
-            "nullable": true
-          },
-          "vNombres": {
-            "type": "string",
-            "nullable": true
-          },
-          "vApellidoPaterno": {
-            "type": "string",
-            "nullable": true
-          },
-          "vApellidoMaterno": {
-            "type": "string",
-            "nullable": true
-          },
-          "vTelefono": {
-            "type": "string",
-            "nullable": true
-          },
-          "vDireccion": {
-            "type": "string",
-            "nullable": true
-          },
-          "vCodDistrito": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RegistroJuridicoRequest": {
-        "type": "object",
-        "properties": {
-          "documento": {
-            "$ref": "#/components/schemas/RegistroDocumentoRequest"
-          },
-          "rucEmpresa": {
-            "type": "string",
-            "nullable": true
-          },
-          "razonSocial": {
-            "type": "string",
+          "archivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchivoRequest"
+            },
             "nullable": true
           }
         },

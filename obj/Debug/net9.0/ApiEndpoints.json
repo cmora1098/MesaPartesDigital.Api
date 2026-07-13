@@ -136,32 +136,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
-    "Method": "Historial",
-    "RelativePath": "api/documentos/historial/{personaId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "personaId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
-    "Method": "Juridico",
-    "RelativePath": "api/documentos/registro-juridico",
+    "ContainingType": "MesaPartesDigital.Api.Controllers.CorreosController",
+    "Method": "Verificar",
+    "RelativePath": "api/correos/verificar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "MesaPartesDigital.Api.Controllers.RegistroJuridicoRequest",
+        "Name": "r",
+        "Type": "MesaPartesDigital.Api.Controllers.OtpRequest",
         "IsRequired": true
       }
     ],
@@ -170,7 +154,7 @@
   {
     "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
     "Method": "NaturalExterno",
-    "RelativePath": "api/documentos/registro-natural-externo",
+    "RelativePath": "api/documentos/registro-natural",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -185,18 +169,12 @@
   },
   {
     "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
-    "Method": "NaturalInterno",
-    "RelativePath": "api/documentos/registro-natural-interno",
-    "HttpMethod": "POST",
+    "Method": "GetTiposDocumento",
+    "RelativePath": "api/documentos/tipos-documento",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "MesaPartesDigital.Models.RegistroDocumentoRequest",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
