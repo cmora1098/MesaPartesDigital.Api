@@ -22,6 +22,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<UbigeoService>();
+builder.Services.AddScoped<ContribuyenteService>();
+
 
 builder.Services.AddScoped<TipoPersonaService>();
 builder.Services.AddScoped<TipoDocumentoService>();

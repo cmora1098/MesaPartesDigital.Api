@@ -1,5 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+using MesaPartesDigital.Api.Models;
 using MesaPartesDigital.Models;
+using MesaPartesDigital.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace MesaPartesDigital.Data
 {
@@ -13,15 +15,17 @@ namespace MesaPartesDigital.Data
         public DbSet<TipoDocPer> TipoDocPers { get; set; }
         public DbSet<Estado> Estados { get; set; }
         public DbSet<TipoPersona> TipoPersonas { get; set; }
-        //public DbSet<PersonaBusquedaDto> PersonaBusquedas { get; set; }
-        public DbSet<PersonaNaturalDto> PersonaNaturales { get; set; }
+         public DbSet<PersonaNaturalDto> PersonaNaturales { get; set; }
         public DbSet<PersonaJuridicaDto> PersonaJuridicas { get; set; }
+
+        public DbSet<ContribuyenteDto> Contribuyente { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // 🔽 Le decimos a EF que este modelo no tiene una tabla física con Primary Key
             //modelBuilder.Entity<PersonaBusquedaDto>().HasNoKey(); 
             modelBuilder.Entity<PersonaNaturalDto>().HasNoKey();
             modelBuilder.Entity<PersonaJuridicaDto>().HasNoKey();
+            modelBuilder.Entity<ContribuyenteDto>().HasNoKey();
         }
 
         //public async Task<List<PersonaBusquedaDto>> ObtenerPersonaPorDocumentoAsync(int iCodTipoDocPer, string vDocPer)
@@ -38,13 +42,15 @@ namespace MesaPartesDigital.Data
                 .ToListAsync();
         }
 
-        public async Task<List<PersonaJuridicaDto>> ObtenerPersonaJuridicaPorRucAsync(int iCodTipoDocPer, string vDocPer)
+        public async Task<ContribuyenteDto?> ObtenerNombrePorRucAsync(string vRuc)
         {
-            return await this.PersonaJuridicas
-                .FromSqlInterpolated($"EXEC [dbo].[USP_PersonaJuridica_ObtenerPorRUC] @iCodTipoDocPer={iCodTipoDocPer}, @vDocPer={vDocPer}")
+            // Usamos el DbSet que ya definiste en el DbContext
+            var lista = await this.Contribuyente
+                .FromSqlRaw("EXEC [dbo].[USP_PersonaJuridica_ObtenerPorRUC] @vRuc={0}", vRuc)
                 .ToListAsync();
-        }
 
+            return lista.FirstOrDefault();
+        }
 
     }
 }

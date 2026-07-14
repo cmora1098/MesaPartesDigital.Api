@@ -1,35 +1,63 @@
+using MesaPartesDigital.Api.Models;
 using MesaPartesDigital.Models;
 using MesaPartesDigital.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MesaPartesDigital.Api.Controllers;
 
-public sealed record RegistroJuridicoRequest(RegistroDocumentoRequest Documento, string RucEmpresa, string RazonSocial);
-
 [ApiController]
 [Route("api/documentos")]
-public sealed class DocumentosController(DocumentoService service) : ControllerBase
+public sealed class DocumentosController : ControllerBase
 {
+    private readonly DocumentoService _service;
+    private readonly IEmailService _emailService;
+
+    // Inyección de dependencias corregida
+    public DocumentosController(DocumentoService service, IEmailService emailService)
+    {
+        _service = service;
+        _emailService = emailService;
+    }
+
     [HttpGet("tipos-documento")]
-    public async Task<IActionResult> GetTiposDocumento() => Ok(await service.ObtenerTiposDocumentoActivosAsync());
+    public async Task<IActionResult> GetTiposDocumento() => Ok(await _service.ObtenerTiposDocumentoActivosAsync());
 
     [HttpPost("registro-natural")]
     public async Task<IActionResult> NaturalExterno([FromBody] RegistroDocumentoRequest request)
     {
         try
         {
-            // Intentamos ejecutar el servicio
-            var resultado = await service.RegistroPersonaNatural_Home(request);
+            // El servicio ahora procesa todo (Principal + Anexos)
+            var resultado = await _service.RegistroPersonaNatural_Home(request);
+
+            // Envío de correo
+            _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, resultado.VAutoGenerado, request.VNombreAsunto);
+
             return Ok(resultado);
         }
         catch (Exception ex)
         {
-            // 1. Log del error en el servidor (consola de Visual Studio)
-            Console.WriteLine($"Error capturado en el Controlador: {ex.Message}");
-
-            // 2. Devolvemos un BadRequest para que el Frontend lo capture en su bloque 'catch'
-            // Esto hará que el error técnico que pusiste en el RAISERROR de SQL aparezca en tu SweetAlert
             return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("registrar-juridica")]
+    public async Task<IActionResult> RegistrarJuridica([FromBody] RegistroDocumentoJuridicoRequest request)
+    {
+        try
+        { 
+            var resultado = await _service.RegistroPersonaJuridica_Home(request);
+             
+            _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, resultado.VAutoGenerado, request.VNombreAsunto);
+
+            // 3. Asignar el correo al objeto de respuesta para que el frontend lo muestre
+            resultado.MailSeguimiento = request.VEmail;
+
+            return Ok(resultado);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
         }
     }
 

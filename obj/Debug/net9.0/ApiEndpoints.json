@@ -153,6 +153,22 @@
   },
   {
     "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "RegistrarJuridica",
+    "RelativePath": "api/documentos/registrar-juridica",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaPartesDigital.Api.Models.RegistroDocumentoJuridicoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
     "Method": "NaturalExterno",
     "RelativePath": "api/documentos/registro-natural",
     "HttpMethod": "POST",
@@ -185,11 +201,6 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "tipoDocumento",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
       {
         "Name": "documento",
         "Type": "System.String",

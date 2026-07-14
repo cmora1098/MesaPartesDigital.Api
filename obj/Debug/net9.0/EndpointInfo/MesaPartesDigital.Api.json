@@ -315,6 +315,37 @@
         }
       }
     },
+    "/api/documentos/registrar-juridica": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroDocumentoJuridicoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroDocumentoJuridicoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroDocumentoJuridicoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/personas/natural": {
       "get": {
         "tags": [
@@ -350,14 +381,6 @@
           "Personas"
         ],
         "parameters": [
-          {
-            "name": "tipoDocumento",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
           {
             "name": "documento",
             "in": "query",
@@ -544,6 +567,96 @@
         },
         "additionalProperties": false
       },
+      "RegistroDocumentoJuridicoRequest": {
+        "type": "object",
+        "properties": {
+          "vRucEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "vRazonSocial": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "iCodTipoDocPer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vDocPer": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "vTelefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "vDireccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "vCodDistrito": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vNroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "dFecDoc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vNombreAsunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "vReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNroPagFolios": {
+            "type": "string",
+            "nullable": true
+          },
+          "vLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "archivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchivoRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RegistroDocumentoRequest": {
         "type": "object",
         "properties": {
@@ -605,6 +718,11 @@
           },
           "vNroPagFolios": {
             "type": "string",
+            "nullable": true
+          },
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "archivos": {

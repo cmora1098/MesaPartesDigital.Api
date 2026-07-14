@@ -25,6 +25,7 @@ namespace MesaPartesDigital.Models
         public string VNroPagFolios { get; set; } = string.Empty;
 
         // --- 3. LISTA DE ARCHIVOS (Para T_Documento / Anexos) ---
+        public int? ICodPer { get; set; }
         // Aquí centralizamos la subida de archivos, ya no como variables sueltas
         public List<ArchivoRequest> Archivos { get; set; } = new();
     }
@@ -39,6 +40,7 @@ namespace MesaPartesDigital.Models
     {
         public int ICodDoc { get; set; }
         public int ICodAsunto { get; set; }
+        public int ICodPer { get; set; }
         public string Status { get; set; } = string.Empty;
         public string MailSeguimiento { get; set; } = string.Empty;
         public string? VAutoGenerado { get; set; } = string.Empty; // Puede ser null en caso de Anexos (Hijos)

@@ -1,4 +1,5 @@
-﻿using MesaPartesDigital.Models;
+﻿using MesaPartesDigital.Api.Models;
+using MesaPartesDigital.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -122,64 +123,108 @@ namespace MesaPartesDigital.Services
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            // 1. Definir el comando para el Stored Procedure
-            using var cmd = new SqlCommand("USP_RegistroPersonaNatural", connection);
-            cmd.CommandType = CommandType.StoredProcedure;
+            // Aquí NO usamos transacción global porque el SP ya tiene una interna
+            RegistroDocumentoResponse respuesta = new RegistroDocumentoResponse();
+            int? codAsuntoActual = null;
 
-            // 2. Parámetros de Persona (Datos Remitente)
-            cmd.Parameters.AddWithValue("@iCodTipoDocPer", request.ICodTipoDocPer);
-            cmd.Parameters.AddWithValue("@vDocPer", request.VDocPer ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@vNombres", request.VNombres ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@vApellidoPaterno", request.VApellidoPaterno ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@vApellidoMaterno", request.VApellidoMaterno ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@vEmail", request.VEmail ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@vTelefono", request.VTelefono ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@vDireccion", request.VDireccion ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@vCodDistrito", request.VCodDistrito ?? (object)DBNull.Value);
-
-            // 3. Parámetros de Asunto y Documento Principal
-            // Obtenemos el archivo principal (BTipo = true)
-            var docPrincipal = request.Archivos.FirstOrDefault(x => x.BTipo) ?? request.Archivos.FirstOrDefault()
-                               ?? new ArchivoRequest { VRutaDoc = "" };
-
-            cmd.Parameters.AddWithValue("@iCodAsunto", 0); // 0 indica al SP que cree uno nuevo
-            cmd.Parameters.AddWithValue("@vRutaDoc", docPrincipal.VRutaDoc ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
-            cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
-
-            // Aquí nos aseguramos que el asunto no sea nulo y se envíe correctamente
-            cmd.Parameters.AddWithValue("@vNombreAsunto", !string.IsNullOrEmpty(request.VNombreAsunto) ? request.VNombreAsunto : "SIN ASUNTO");
-
-            cmd.Parameters.AddWithValue("@vReferencia", request.VReferencia ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios ?? "0");
-            cmd.Parameters.AddWithValue("@btipo", true);
-
-            // 4. Ejecución
-            using var reader = await cmd.ExecuteReaderAsync();
-
-            if (await reader.ReadAsync())
+            foreach (var archivo in request.Archivos)
             {
-                return new RegistroDocumentoResponse
-                {
-                    ICodDoc = reader["iCodDoc"] != DBNull.Value ? Convert.ToInt32(reader["iCodDoc"]) : 0,
-                    ICodAsunto = reader["iCodAsunto"] != DBNull.Value ? Convert.ToInt32(reader["iCodAsunto"]) : 0,
-                    Status = reader["Status"]?.ToString() ?? "ERROR",
-                    MailSeguimiento = reader["MailSeguimiento"]?.ToString() ?? "",
-                    VAutoGenerado = reader["vAutoGenerado"]?.ToString()
-                };
-            }
+                using var cmd = new SqlCommand("USP_RegistroPersonaNatural", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            throw new Exception("El procedimiento almacenado no retornó datos.");
+                // Parámetros de Persona (son los mismos para todos los archivos)
+                cmd.Parameters.AddWithValue("@iCodTipoDocPer", request.ICodTipoDocPer);
+                cmd.Parameters.AddWithValue("@vDocPer", request.VDocPer);
+                cmd.Parameters.AddWithValue("@vNombres", request.VNombres);
+                cmd.Parameters.AddWithValue("@vApellidoPaterno", request.VApellidoPaterno);
+                cmd.Parameters.AddWithValue("@vApellidoMaterno", request.VApellidoMaterno);
+                cmd.Parameters.AddWithValue("@vEmail", request.VEmail);
+                cmd.Parameters.AddWithValue("@vTelefono", request.VTelefono);
+                cmd.Parameters.AddWithValue("@vDireccion", request.VDireccion);
+                cmd.Parameters.AddWithValue("@vCodDistrito", request.VCodDistrito);
+
+                // Parámetros del Documento
+                cmd.Parameters.AddWithValue("@iCodAsunto", codAsuntoActual ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
+                cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
+                cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
+                cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
+                cmd.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
+                cmd.Parameters.AddWithValue("@vReferencia", archivo.BTipo ? request.VReferencia : "ANEXO");
+                cmd.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
+                cmd.Parameters.AddWithValue("@btipo", archivo.BTipo);
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
+                {
+                    if (archivo.BTipo) // Si es el principal, guardamos el Asunto generado
+                    {
+                        codAsuntoActual = reader.GetInt32(reader.GetOrdinal("iCodAsunto"));
+                        respuesta.ICodAsunto = codAsuntoActual.Value;
+                        respuesta.VAutoGenerado = reader["vAutoGenerado"].ToString();
+                        respuesta.MailSeguimiento = request.VEmail;
+                    }
+                }
+                reader.Close();
+            }
+            return respuesta;
         }
 
+        public async Task<RegistroDocumentoResponse> RegistroPersonaJuridica_Home(RegistroDocumentoJuridicoRequest request)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
 
+            RegistroDocumentoResponse respuesta = new RegistroDocumentoResponse();
+            int? codAsuntoActual = null;
 
+            foreach (var archivo in request.Archivos)
+            {
+                using var cmd = new SqlCommand("USP_RegistroPersonaJuridica", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
 
+                // I. Datos Empresa
+                cmd.Parameters.AddWithValue("@vRucEmpresa", request.VRucEmpresa);
+                cmd.Parameters.AddWithValue("@vRazonSocial", request.VRazonSocial);
 
+                // II. Datos Representante (Usando las propiedades del nuevo request)
+                // Nota: He ajustado los nombres para que coincidan con tu nueva clase
+                cmd.Parameters.AddWithValue("@iCodTipoDocRep", request.ICodTipoDocPer);
+                cmd.Parameters.AddWithValue("@vDocRep", request.VDocPer);
+                cmd.Parameters.AddWithValue("@vNombresRep", request.VNombres);
+                cmd.Parameters.AddWithValue("@vApellidoPaternoRep", request.VApellidoPaterno);
+                cmd.Parameters.AddWithValue("@vApellidoMaternoRep", request.VApellidoMaterno);
+                cmd.Parameters.AddWithValue("@vEmailRep", request.VEmail);
+                cmd.Parameters.AddWithValue("@vTelefonoRep", request.VTelefono);
+                cmd.Parameters.AddWithValue("@vDireccionRep", request.VDireccion);
+                cmd.Parameters.AddWithValue("@vCodDistritoRep", request.VCodDistrito);
 
+                // III. Datos Documento
+                cmd.Parameters.AddWithValue("@iCodAsunto", (object)codAsuntoActual ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
+                cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
+                cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
+                cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
+                cmd.Parameters.AddWithValue("@vReferencia", archivo.BTipo ? request.VReferencia : "ANEXO");
+                cmd.Parameters.AddWithValue("@vNroPagFolios", archivo.BTipo ? request.VNroPagFolios : "0");
+                cmd.Parameters.AddWithValue("@btipo", archivo.BTipo);
+                cmd.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
 
-        // 🔄 NUEVO Y ACTUALIZADO: Registro de trámite interno para Persona Jurídica (Logeado)
+                using var reader = await cmd.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
+                {
+                    if (archivo.BTipo)
+                    {
+                        codAsuntoActual = reader.GetInt32(reader.GetOrdinal("iCodAsunto"));
+                        respuesta.ICodAsunto = codAsuntoActual.Value;
+                        respuesta.VAutoGenerado = reader["vAutoGenerado"].ToString();
+                    }
+                }
+                reader.Close();
+            }
+            return respuesta;
+        }
+
         //public async Task<RegistroDocumentoResponse> RegistrarPersonaJuridicaAsync(RegistroDocumentoRequest request, string rucEmpresa, string razonSocial)
         //{
         //    using var connection = new SqlConnection(_connectionString);
@@ -226,41 +271,41 @@ namespace MesaPartesDigital.Services
         //    throw new Exception("No se pudo obtener la respuesta del trámite jurídico registrado.");
         //}
 
-        //// MANTENIDO: Historial de Trámites x Usuario 
-        //public async Task<List<TramiteDto>> ObtenerHistorialTramitesAsync(int iCodPer)
-        //{
-        //    var historial = new List<TramiteDto>();
+        // MANTENIDO: Historial de Trámites x Usuario 
+        public async Task<List<TramiteDto>> ObtenerHistorialTramitesAsync(int iCodPer)
+        {
+            var historial = new List<TramiteDto>();
 
-        //    try
-        //    {
-        //        using var connection = new SqlConnection(_connectionString);
-        //        using var command = new SqlCommand("USP_Tramite_ListarHistorialPorUsuario", connection);
+            try
+            {
+                using var connection = new SqlConnection(_connectionString);
+                using var command = new SqlCommand("USP_Tramite_ListarHistorialPorUsuario", connection);
 
-        //        command.CommandType = CommandType.StoredProcedure;
-        //        command.Parameters.AddWithValue("@iCodPer", iCodPer);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@iCodPer", iCodPer);
 
-        //        await connection.OpenAsync();
+                await connection.OpenAsync();
 
-        //        using var reader = await command.ExecuteReaderAsync();
-        //        while (await reader.ReadAsync())
-        //        {
-        //            historial.Add(new TramiteDto
-        //            {
-        //                Codigo = reader["Codigo"].ToString() ?? string.Empty,
-        //                Asunto = reader["Asunto"].ToString() ?? string.Empty,
-        //                Estado = reader["Estado"].ToString() ?? string.Empty,
-        //                Fecha = reader["Fecha"].ToString() ?? string.Empty
-        //            });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"[DocumentoService] 🚨 Error al listar historial: {ex.Message}");
-        //        throw;
-        //    }
+                using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    historial.Add(new TramiteDto
+                    {
+                        Codigo = reader["Codigo"].ToString() ?? string.Empty,
+                        Asunto = reader["Asunto"].ToString() ?? string.Empty,
+                        Estado = reader["Estado"].ToString() ?? string.Empty,
+                        Fecha = reader["Fecha"].ToString() ?? string.Empty
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DocumentoService] 🚨 Error al listar historial: {ex.Message}");
+                throw;
+            }
 
-        //    return historial;
-        //}
+            return historial;
+        }
 
         //// MANTENIDO: Trámite Interno Persona Natural
         //public async Task<RegistroDocumentoResponse> RegistroTramiteInterno_Home(RegistroDocumentoRequest request)

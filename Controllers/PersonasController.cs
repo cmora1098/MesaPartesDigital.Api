@@ -13,6 +13,13 @@ public sealed class PersonasController : ControllerBase
         => Ok(await s.BuscarPersonaPorDocumentoAsync(tipoDocumento, documento));
 
     [HttpGet("juridica")]
-    public async Task<IActionResult> Juridica(int tipoDocumento, string documento, [FromServices] ApplicationDbContext db)
-        => Ok((await db.ObtenerPersonaJuridicaPorRucAsync(tipoDocumento, documento)).FirstOrDefault());
+    public async Task<IActionResult> Juridica(string documento, [FromServices] ContribuyenteService service)
+    {
+        var resultado = await service.ObtenerPorRucAsync(documento);
+
+        if (resultado == null)
+            return NotFound("Contribuyente no encontrado.");
+
+        return Ok(resultado);
+    }
 }
