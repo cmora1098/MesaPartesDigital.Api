@@ -24,5 +24,6 @@ namespace MesaPartesDigital.Services
         public bool Exitoso { get; set; }
         public string Mensaje { get; set; } = string.Empty;
         public string? PasswordGenerado { get; set; }
+        public string? EmailDestino { get; set; }
     }
 }

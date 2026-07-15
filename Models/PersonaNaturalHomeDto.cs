@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MesaPartesDigital.Models
 {
-    public class RegistroDocumentoRequest
+    public class PersonaNaturalHomeDto
     {
         // --- 1. DATOS DEL REMITENTE (Para T_Persona) ---
         public int ICodTipoDocPer { get; set; }

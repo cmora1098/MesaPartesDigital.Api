@@ -21,8 +21,24 @@ namespace MesaPartesDigital.Services
             _configuration = configuration;
             _connectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
         }
+        private string ConvertirASha256(string textoPlano)
+        {
+            if (string.IsNullOrEmpty(textoPlano)) return string.Empty;
 
-        public async Task<LoginResultDto> ValidarCredencialesAsync(string email, string password)
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(textoPlano));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        public async Task<LoginResultDto> ValidarCredencialesAsync(string documento, string password)
         {
             var resultado = new LoginResultDto { Exitoso = false, Mensaje = "Credenciales incorrectas" };
             string passwordHash = ConvertirASha256(password);
@@ -36,24 +52,22 @@ namespace MesaPartesDigital.Services
                     using (var cmd = new SqlCommand("dbo.USP_Persona_ValidarLogin", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@vEmail", SqlDbType.VarChar, 250).Value = email;
+                        // CAMBIO: Asegúrate de que el SP acepte @vDocPer en lugar de @vEmail
+                        cmd.Parameters.Add("@vDocPer", SqlDbType.VarChar, 20).Value = documento;
                         cmd.Parameters.Add("@vPassword", SqlDbType.VarChar, 64).Value = passwordHash;
 
                         using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (await reader.ReadAsync())
                             {
-                                // 1. Validamos siempre el estado de éxito
                                 resultado.Exitoso = Convert.ToInt32(reader["Exitoso"]) == 1;
                                 resultado.Mensaje = reader["Mensaje"]?.ToString() ?? "Error desconocido";
 
-                                // 2. Solo intentamos leer datos si realmente fue exitoso
                                 if (resultado.Exitoso)
                                 {
-                                    // Usamos un método de extensión o validación simple para evitar errores de columnas nulas
                                     resultado.ICodPer = reader["iCodPer"] != DBNull.Value ? Convert.ToInt32(reader["iCodPer"]) : 0;
                                     resultado.VNombreCompleto = reader["vNombreCompleto"]?.ToString() ?? "Usuario";
-                                    resultado.VEmail = reader["vEmail"]?.ToString() ?? email;
+                                    // Opcional: Si el SP devuelve el DNI, guárdalo también
                                 }
                             }
                         }
@@ -64,15 +78,14 @@ namespace MesaPartesDigital.Services
             {
                 resultado.Exitoso = false;
                 resultado.Mensaje = $"Error técnico: {ex.Message}";
-                // Opcional: _logger.LogError(ex, "Error en login");
             }
-
             return resultado;
         }
 
-        public async Task<GestionCredencialesResultDto> GestionarCredencialesAsync(string email, string? codigoOtp, int tipoAccion)
+        public async Task<GestionCredencialesResultDto> GestionarCredencialesAsync(string dni, string? codigoOtp, int tipoAccion)
         {
             var resultado = new GestionCredencialesResultDto();
+            string? correoUsuario = null;
 
             try
             {
@@ -80,11 +93,11 @@ namespace MesaPartesDigital.Services
                 {
                     await conn.OpenAsync();
 
+                    // 1. Ejecutar el SP de Gestión
                     using (var cmd = new SqlCommand("dbo.USP_Persona_GestionarCredenciales", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add("@vEmail", SqlDbType.VarChar, 250).Value = email;
+                        cmd.Parameters.Add("@vDocPer", SqlDbType.VarChar, 20).Value = dni;
                         cmd.Parameters.Add("@vCodigoOTP", SqlDbType.VarChar, 10).Value = (object?)codigoOtp ?? DBNull.Value;
                         cmd.Parameters.Add("@iTipoAccion", SqlDbType.Int).Value = tipoAccion;
 
@@ -92,7 +105,6 @@ namespace MesaPartesDigital.Services
                         {
                             if (await reader.ReadAsync())
                             {
-                                // Captura segura de los alias exactos devueltos por el STORE PROCEDURE
                                 resultado.Exitoso = Convert.ToInt32(reader["Exitoso"]) == 1;
                                 resultado.Mensaje = reader["Mensaje"]?.ToString() ?? "Operación procesada.";
                                 resultado.PasswordGenerado = reader["PasswordGenerado"] != DBNull.Value ? reader["PasswordGenerado"]?.ToString() : null;
@@ -100,33 +112,50 @@ namespace MesaPartesDigital.Services
                             else
                             {
                                 resultado.Exitoso = false;
-                                resultado.Mensaje = "No se recibió respuesta estructurada desde la base de datos.";
+                                resultado.Mensaje = "No se recibió respuesta estructurada de la base de datos.";
+                                return resultado;
                             }
+                        }
+                    }
+
+                    // 2. Si la operación fue exitosa (Generar clave o Verificar), recuperamos el correo
+                    if (resultado.Exitoso)
+                    {
+                        using (var cmdEmail = new SqlCommand("SELECT vEmail FROM [dbo].[T_Persona] WHERE vDocPer = @vDocPer", conn))
+                        {
+                            cmdEmail.Parameters.Add("@vDocPer", SqlDbType.VarChar, 20).Value = dni;
+                            var emailResult = await cmdEmail.ExecuteScalarAsync();
+                            correoUsuario = emailResult?.ToString();
+                            resultado.EmailDestino = correoUsuario; // Se asigna para el frontend
                         }
                     }
                 }
 
-                // ✉️ Despacho de Correo Automatizado con MailKit si la operación fue exitosa
-                if (resultado.Exitoso && !string.IsNullOrEmpty(resultado.PasswordGenerado))
+                // 3. Si se generó clave o se activó, enviamos correo
+                if (resultado.Exitoso && !string.IsNullOrEmpty(resultado.PasswordGenerado) && !string.IsNullOrEmpty(correoUsuario))
                 {
                     string asunto = tipoAccion == 1 ? "Cuenta Activada - Mesa de Partes Digital" : "Restablecimiento de Contraseña - Mesa de Partes Digital";
-                    string descripcionAccion = tipoAccion == 1
-                        ? "Se ha completado la validación de su cuenta. A continuación, le brindamos su contraseña autogenerada para el acceso al sistema:"
+                    string descripcion = tipoAccion == 1
+                        ? "Se ha completado la validación de su cuenta. Aquí tiene su contraseña:"
                         : "Se ha solicitado un restablecimiento de sus credenciales. A continuación, le brindamos su nueva contraseña de acceso:";
 
-                    await EnviarCorreoClaveAsync(email, asunto, descripcionAccion, resultado.PasswordGenerado);
+                    bool correoEnviado = await EnviarCorreoClaveAsync(correoUsuario, asunto, descripcion, resultado.PasswordGenerado);
+
+                    if (!correoEnviado)
+                    {
+                        resultado.Mensaje = "La credencial fue generada, pero hubo un error al enviar el correo.";
+                    }
                 }
             }
             catch (Exception ex)
             {
                 resultado.Exitoso = false;
-                // 🔍 Captura el mensaje técnico real de la excepción (evita mapeos nulos o literales)
-                resultado.Mensaje = $"Error al gestionar las credenciales: {ex.Message}";
+                resultado.Mensaje = $"Error crítico: {ex.Message}";
             }
 
             return resultado;
         }
-
+         
         private async Task<bool> EnviarCorreoClaveAsync(string correoDestino, string asunto, string descripcion, string passwordGenerado)
         {
             try
@@ -181,22 +210,6 @@ namespace MesaPartesDigital.Services
             }
         }
 
-        // 🛠️ Función que iguala al LOWER(CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', ...), 2)) de SQL
-        private string ConvertirASha256(string textoPlano)
-        {
-            if (string.IsNullOrEmpty(textoPlano)) return string.Empty;
 
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(textoPlano));
-
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
-        }
     }
 }

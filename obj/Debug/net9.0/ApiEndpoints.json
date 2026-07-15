@@ -153,15 +153,31 @@
   },
   {
     "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
-    "Method": "RegistrarJuridica",
-    "RelativePath": "api/documentos/registrar-juridica",
+    "Method": "Historial",
+    "RelativePath": "api/documentos/historial/{personaId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "personaId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "JuridicaExterno",
+    "RelativePath": "api/documentos/registro-juridica",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MesaPartesDigital.Api.Models.RegistroDocumentoJuridicoRequest",
+        "Type": "MesaPartesDigital.Api.Models.PersonaJuridicaHomeDto",
         "IsRequired": true
       }
     ],
@@ -177,7 +193,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MesaPartesDigital.Models.RegistroDocumentoRequest",
+        "Type": "MesaPartesDigital.Models.PersonaNaturalHomeDto",
         "IsRequired": true
       }
     ],

@@ -1,6 +1,6 @@
 ﻿namespace MesaPartesDigital.Models
 {
-    public class TramiteDto
+    public class HistorialTramiteDto
     {
         public string Codigo { get; set; } = string.Empty;
         public string Asunto { get; set; } = string.Empty;

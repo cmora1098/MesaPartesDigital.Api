@@ -7,9 +7,9 @@ namespace MesaPartesDigital.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
 
         public DbSet<TipoDocPer> TipoDocPers { get; set; }
@@ -20,22 +20,13 @@ namespace MesaPartesDigital.Data
 
         public DbSet<ContribuyenteDto> Contribuyente { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // 🔽 Le decimos a EF que este modelo no tiene una tabla física con Primary Key
-            //modelBuilder.Entity<PersonaBusquedaDto>().HasNoKey(); 
+        { 
             modelBuilder.Entity<PersonaNaturalDto>().HasNoKey();
             modelBuilder.Entity<PersonaJuridicaDto>().HasNoKey();
             modelBuilder.Entity<ContribuyenteDto>().HasNoKey();
         }
-
-        //public async Task<List<PersonaBusquedaDto>> ObtenerPersonaPorDocumentoAsync(int iCodTipoDocPer, string vDocPer)
-        //{
-        //    return await this.PersonaBusquedas
-        //        .FromSqlInterpolated($"EXEC [dbo].[USP_Persona_ObtenerPorDocumento] @iCodTipoDocPer={iCodTipoDocPer}, @vDocPer={vDocPer}")
-        //        .ToListAsync();
-        //}
-
-         public async Task<List<PersonaNaturalDto>> ObtenerPersonaPorDocumentoAsync(int iCodTipoDocPer, string vDocPer)
+         
+        public async Task<List<PersonaNaturalDto>> ObtenerPersonaPorDocumentoAsync(int iCodTipoDocPer, string vDocPer)
         {
             return await this.PersonaNaturales
                 .FromSqlInterpolated($"EXEC [dbo].[USP_Persona_ObtenerPorDocumento] @iCodTipoDocPer={iCodTipoDocPer}, @vDocPer={vDocPer}")

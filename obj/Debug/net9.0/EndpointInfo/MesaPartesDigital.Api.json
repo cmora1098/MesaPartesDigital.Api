@@ -293,17 +293,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
+                "$ref": "#/components/schemas/PersonaNaturalHomeDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
+                "$ref": "#/components/schemas/PersonaNaturalHomeDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoRequest"
+                "$ref": "#/components/schemas/PersonaNaturalHomeDto"
               }
             }
           }
@@ -315,7 +315,7 @@
         }
       }
     },
-    "/api/documentos/registrar-juridica": {
+    "/api/documentos/registro-juridica": {
       "post": {
         "tags": [
           "Documentos"
@@ -324,21 +324,44 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoJuridicoRequest"
+                "$ref": "#/components/schemas/PersonaJuridicaHomeDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoJuridicoRequest"
+                "$ref": "#/components/schemas/PersonaJuridicaHomeDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroDocumentoJuridicoRequest"
+                "$ref": "#/components/schemas/PersonaJuridicaHomeDto"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/historial/{personaId}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "personaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -567,22 +590,9 @@
         },
         "additionalProperties": false
       },
-      "RegistroDocumentoJuridicoRequest": {
+      "PersonaJuridicaHomeDto": {
         "type": "object",
         "properties": {
-          "vRucEmpresa": {
-            "type": "string",
-            "nullable": true
-          },
-          "vRazonSocial": {
-            "type": "string",
-            "nullable": true
-          },
-          "iCodPer": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
           "iCodTipoDocPer": {
             "type": "integer",
             "format": "int32"
@@ -619,6 +629,14 @@
             "type": "string",
             "nullable": true
           },
+          "vruc": {
+            "type": "string",
+            "nullable": true
+          },
+          "vRazonSocial": {
+            "type": "string",
+            "nullable": true
+          },
           "iCodTipoDoc": {
             "type": "integer",
             "format": "int32"
@@ -643,8 +661,9 @@
             "type": "string",
             "nullable": true
           },
-          "vLink": {
-            "type": "string",
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "archivos": {
@@ -657,7 +676,7 @@
         },
         "additionalProperties": false
       },
-      "RegistroDocumentoRequest": {
+      "PersonaNaturalHomeDto": {
         "type": "object",
         "properties": {
           "iCodTipoDocPer": {

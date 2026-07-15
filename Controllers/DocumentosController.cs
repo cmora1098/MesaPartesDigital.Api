@@ -23,7 +23,7 @@ public sealed class DocumentosController : ControllerBase
     public async Task<IActionResult> GetTiposDocumento() => Ok(await _service.ObtenerTiposDocumentoActivosAsync());
 
     [HttpPost("registro-natural")]
-    public async Task<IActionResult> NaturalExterno([FromBody] RegistroDocumentoRequest request)
+    public async Task<IActionResult> NaturalExterno([FromBody] PersonaNaturalHomeDto request)
     {
         try
         {
@@ -41,30 +41,32 @@ public sealed class DocumentosController : ControllerBase
         }
     }
 
-    [HttpPost("registrar-juridica")]
-    public async Task<IActionResult> RegistrarJuridica([FromBody] RegistroDocumentoJuridicoRequest request)
+    [HttpPost("registro-juridica")]
+    public async Task<IActionResult> JuridicaExterno([FromBody] PersonaJuridicaHomeDto request)
     {
         try
-        { 
+        {
+            // 1. Llamamos al servicio adaptado para Jurídica
             var resultado = await _service.RegistroPersonaJuridica_Home(request);
-             
-            _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, resultado.VAutoGenerado, request.VNombreAsunto);
 
-            // 3. Asignar el correo al objeto de respuesta para que el frontend lo muestre
-            resultado.MailSeguimiento = request.VEmail;
+            // 2. Envío de correo (el resto de la lógica permanece igual)
+            _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, resultado.VAutoGenerado, request.VNombreAsunto);
 
             return Ok(resultado);
         }
         catch (Exception ex)
         {
-            return BadRequest(new { message = ex.Message });
+            // Es una buena práctica registrar el error antes de devolverlo
+            return BadRequest(new { message = "Error al procesar el registro: " + ex.Message });
         }
     }
+
+    [HttpGet("historial/{personaId:int}")]
+    public async Task<IActionResult> Historial(int personaId) => Ok(await _service.ObtenerHistorialTramitesAsync(personaId));
 
     //[HttpPost("registro-natural-interno")]
     //public async Task<IActionResult> NaturalInterno(RegistroDocumentoRequest request) => Ok(await service.RegistroTramiteInterno_Home(request));
     //[HttpPost("registro-juridico")]
     //public async Task<IActionResult> Juridico(RegistroJuridicoRequest request) => Ok(await service.RegistrarPersonaJuridicaAsync(request.Documento, request.RucEmpresa, request.RazonSocial));
-    //[HttpGet("historial/{personaId:int}")]
-    //public async Task<IActionResult> Historial(int personaId) => Ok(await service.ObtenerHistorialTramitesAsync(personaId));
+
 }
