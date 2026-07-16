@@ -7,97 +7,79 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE OR ALTER PROCEDURE [dbo].[USP_RegistroTramiteInternoPersonaNatural]
-    -- 1. Identificación del Remitente (Ya obtenido de la sesión del usuario)
-    @iCodPer INT,               -- ID único de la persona logueada
-    @vEmail VARCHAR(150),       -- Email de la sesión para las alertas/seguimiento
+    -- 1. Identificación del Remitente (Sesión)
+    @iCodPer INT,               
+    @vEmail VARCHAR(150),       
 
-    -- 2. Datos específicos de este Archivo (Principal o Anexo)
-    @iCodAsunto INT,          -- Recibe 0 si es Principal (Padre), o el ID generado si es Anexo (Hijo)
-    @vRutaDoc VARCHAR(MAX),   -- Ruta física del archivo guardado en el servidor
-    @iCodTipoDoc INT,         -- 1 = Informe, 2 = Memo, 3 = Carta, etc.
-    @vNroDoc VARCHAR(50),     -- Número correlativo del documento escrito
-    @dFecDoc DATE,            -- Fecha de emisión del documento
-    @vReferencia VARCHAR(MAX),-- Sumilla / Asunto del trámite
-    @vNroPagFolios VARCHAR(50),-- Cantidad de folios
-    @btipo BIT,               -- 1 = Principal (Padre), 0 = Anexo (Hijo)
-    @vLink VARCHAR(MAX) = NULL-- URL externa opcional
+    -- 2. Datos del Documento y Formulario
+    @iCodAsunto INT OUTPUT,     -- Se mantiene para la lógica de Anexos
+    @vRutaDoc VARCHAR(MAX),
+    @iCodTipoDoc INT,
+    @vNroDoc VARCHAR(50),
+    @dFecDoc DATE,
+    @vNombreAsunto VARCHAR(MAX), -- Usado para el Asunto principal
+    @vReferencia VARCHAR(MAX),   -- Usado para el detalle del documento
+    @vNroPagFolios VARCHAR(50),
+    @btipo BIT,                  -- 1 = Padre, 0 = Anexo
+    @vLink VARCHAR(MAX) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
     DECLARE @GeneratediCodDoc INT;
-    DECLARE @vAutoGenerado VARCHAR(MAX);
+    DECLARE @vAutoGenerado VARCHAR(MAX) = NULL;
 
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        -- ====================================================================
-        -- 1. CONTROL DE T_ASUNTO Y GENERACIÓN DEL CÓDIGO DE TRÁMITE (PADRE)
-        -- ====================================================================
+        -- 1. Lógica de Asunto y Trámite (Solo si es documento principal)
         IF (@btipo = 1)
         BEGIN
-            -- Generamos el correlativo único para el trámite principal
             SET @vAutoGenerado = 'AGRORURAL_' + SUBSTRING(CONVERT(VARCHAR(50), NEWID()), 1, 8);
             
-            -- Insertar la cabecera del expediente vinculándolo directamente al @iCodPer provisto
+            -- Insertar cabecera usando el @vNombreAsunto que viene del formulario
             INSERT INTO dbo.T_Asunto (
-                iCodEstado,
-                vNombreAsunto,
-                iCodPer,
-                vMailSeguimiento,
-                vAutoGenerado,
-                bActivo,
-                dtFechaCreacion
+                iCodEstado, vNombreAsunto, iCodPer, vMailSeguimiento, vAutoGenerado, bActivo, dtFechaCreacion
             )
             VALUES (
-                1,                    -- Estado inicial: Registrado
-                UPPER(@vReferencia),  -- Usamos la sumilla/asunto de la UI
-                @iCodPer,             -- Usuario logueado
-                UPPER(@vEmail),       -- Email de seguimiento
-                @vAutoGenerado,
-                1,
-                GETDATE()
+                1, UPPER(@vNombreAsunto), @iCodPer, LOWER(@vEmail), @vAutoGenerado, 1, GETDATE()
             );
             
-            -- Recuperamos el ID recién generado para usarlo en el documento principal y anexos
             SET @iCodAsunto = SCOPE_IDENTITY();
-        END
-        ELSE
-        BEGIN
-            -- Si btipo = 0 (Anexo), no crea cabecera. Mantiene el @iCodAsunto enviado desde Blazor
-            SET @vAutoGenerado = NULL; 
+
+            -- Registrar en T_Tramite
+            INSERT INTO dbo.T_Tramite (iCodTipoPer, iCodAsunto, vRUC)
+            VALUES (1, @iCodAsunto, NULL);
         END
 
-        -- ====================================================================
-        -- 2. INSERCIÓN DEL REGISTRO DE ARCHIVO EN dbo.T_Documento
-        -- ====================================================================
+        -- 2. Inserción del Documento (Incluye todos los campos de tu lista)
         INSERT INTO dbo.T_Documento (
-            iCodPer,
-            iCodAsunto,
-            vRutaDoc,          
-            iCodTipoDoc,       
-            vNroDoc,
-            dFecDoc,
-            dFecRecepcion,
-            vReferencia,
-            vNroPagFolios,
-            vLink,             
-            bActivo,
-            dtFechaCargaArchivo,
-            btipo              
+            iCodPer, 
+            iCodAsunto, 
+            vRutaDoc, 
+            iCodTipoDoc, 
+            vNroDoc, 
+            dFecDoc, 
+            dFecRecepcion, 
+            vReferencia,     -- La referencia específica del documento
+            vNroPagFolios, 
+            vLink, 
+            bActivo, 
+            dtFechaCargaArchivo, 
+            btipo
         )
         VALUES (
-            @iCodPer,
-            @iCodAsunto,       -- Enlazado al ID del expediente (Generado arriba o recibido por parámetro)
+            @iCodPer, 
+            @iCodAsunto, 
             @vRutaDoc, 
-            @iCodTipoDoc,
-            UPPER(@vNroDoc),
-            @dFecDoc,
-            GETDATE(),         -- Fecha y hora del servidor al momento de la recepción
-            UPPER(@vReferencia),
-            @vNroPagFolios,
-            @vLink,            
-            1,
-            GETDATE(),
+            @iCodTipoDoc, 
+            UPPER(@vNroDoc), 
+            @dFecDoc, 
+            GETDATE(), 
+            UPPER(@vReferencia), -- Mapeado correctamente
+            @vNroPagFolios, 
+            @vLink, 
+            1, 
+            GETDATE(), 
             @btipo
         );
 
@@ -105,20 +87,17 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        -- ====================================================================
-        -- RETORNO ESPERADO POR EL DOCUMENTOSERVICE EN C#
-        -- ====================================================================
+        -- Retorno al Service
         SELECT 
             @GeneratediCodDoc AS iCodDoc, 
             @iCodAsunto AS iCodAsunto, 
             'OK' AS Status,
-            UPPER(@vEmail) AS MailSeguimiento,  
-            @vAutoGenerado AS vAutoGenerado;     
-
+            LOWER(@vEmail) AS MailSeguimiento, 
+            @vAutoGenerado AS vAutoGenerado;       
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(4000) = 'Error al registrar trámite: ' + ERROR_MESSAGE();
         RAISERROR(@ErrorMessage, 16, 1);
     END CATCH
 END;

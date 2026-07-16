@@ -201,6 +201,38 @@
   },
   {
     "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "JuridicaInterno",
+    "RelativePath": "api/documentos/registro-tramite-juridica",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaPartesDigital.Api.Models.RegTramitePersJuridicaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "NaturalInterno",
+    "RelativePath": "api/documentos/registro-tramite-natural",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaPartesDigital.Api.Models.RegTramitePersNaturalDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
     "Method": "GetTiposDocumento",
     "RelativePath": "api/documentos/tipos-documento",
     "HttpMethod": "GET",

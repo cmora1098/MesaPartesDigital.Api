@@ -1,11 +1,10 @@
 CREATE OR ALTER PROCEDURE [dbo].[USP_Persona_ValidarLogin]
-    @vDocPer VARCHAR(20),  -- Cambiado de @vEmail
+    @vDocPer VARCHAR(20),
     @vPassword VARCHAR(64) 
 AS
 BEGIN
     SET NOCOUNT ON; 
     
-    -- Verificamos si existe el registro con esas credenciales
     IF EXISTS (SELECT 1 FROM [BD_RCPDOC].[dbo].[T_Persona] WHERE [vDocPer] = @vDocPer AND [vPassword] = @vPassword)
     BEGIN
         SELECT 
@@ -13,19 +12,19 @@ BEGIN
             'Acceso concedido' AS Mensaje,
             [iCodPer],
             ([vNombres] + ' ' + [vApellidoPaterno] + ' ' + [vApellidoMaterno]) AS vNombreCompleto,
-            [vEmail] -- Mantenemos el correo por si lo necesitas en el frontend
+            [vEmail] 
         FROM [BD_RCPDOC].[dbo].[T_Persona]
         WHERE [vDocPer] = @vDocPer AND [vPassword] = @vPassword;
     END
     ELSE
     BEGIN
-        -- Retornamos un estado de error estructurado para que el API no falle al leer
+        -- Estado de error estructurado con las mismas columnas que el bloque exitoso
         SELECT 
             0 AS Exitoso, 
             'DNI o contraseña incorrectos' AS Mensaje,
-            NULL AS [iCodPer],
-            NULL AS vNombreCompleto,
-            NULL AS [vEmail];
+            0 AS [iCodPer],
+            '' AS vNombreCompleto,
+            '' AS [vEmail];
     END
 END
 GO

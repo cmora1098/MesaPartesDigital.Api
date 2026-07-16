@@ -1,13 +1,13 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MesaPartesDigital.Services
 {
@@ -38,6 +38,50 @@ namespace MesaPartesDigital.Services
             }
         }
 
+        //public async Task<LoginResultDto> ValidarCredencialesAsync(string documento, string password)
+        //{
+        //    var resultado = new LoginResultDto { Exitoso = false, Mensaje = "Credenciales incorrectas" };
+        //    string passwordHash = ConvertirASha256(password);
+
+        //    try
+        //    {
+        //        using (var conn = new SqlConnection(_connectionString))
+        //        {
+        //            await conn.OpenAsync();
+
+        //            using (var cmd = new SqlCommand("dbo.USP_Persona_ValidarLogin", conn))
+        //            {
+        //                cmd.CommandType = CommandType.StoredProcedure;
+        //                // CAMBIO: Asegúrate de que el SP acepte @vDocPer en lugar de @vEmail
+        //                cmd.Parameters.Add("@vDocPer", SqlDbType.VarChar, 20).Value = documento;
+        //                cmd.Parameters.Add("@vPassword", SqlDbType.VarChar, 64).Value = passwordHash;
+
+        //                using (var reader = await cmd.ExecuteReaderAsync())
+        //                {
+        //                    if (await reader.ReadAsync())
+        //                    {
+        //                        resultado.Exitoso = Convert.ToInt32(reader["Exitoso"]) == 1;
+        //                        resultado.Mensaje = reader["Mensaje"]?.ToString() ?? "Error desconocido";
+
+        //                        if (resultado.Exitoso)
+        //                        {
+        //                            resultado.ICodPer = reader["iCodPer"] != DBNull.Value ? Convert.ToInt32(reader["iCodPer"]) : 0;
+        //                            resultado.VNombreCompleto = reader["vNombreCompleto"]?.ToString() ?? "Usuario";
+        //                            // Opcional: Si el SP devuelve el DNI, guárdalo también
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        resultado.Exitoso = false;
+        //        resultado.Mensaje = $"Error técnico: {ex.Message}";
+        //    }
+        //    return resultado;
+        //}
+
         public async Task<LoginResultDto> ValidarCredencialesAsync(string documento, string password)
         {
             var resultado = new LoginResultDto { Exitoso = false, Mensaje = "Credenciales incorrectas" };
@@ -48,11 +92,9 @@ namespace MesaPartesDigital.Services
                 using (var conn = new SqlConnection(_connectionString))
                 {
                     await conn.OpenAsync();
-
                     using (var cmd = new SqlCommand("dbo.USP_Persona_ValidarLogin", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        // CAMBIO: Asegúrate de que el SP acepte @vDocPer en lugar de @vEmail
                         cmd.Parameters.Add("@vDocPer", SqlDbType.VarChar, 20).Value = documento;
                         cmd.Parameters.Add("@vPassword", SqlDbType.VarChar, 64).Value = passwordHash;
 
@@ -60,14 +102,23 @@ namespace MesaPartesDigital.Services
                         {
                             if (await reader.ReadAsync())
                             {
-                                resultado.Exitoso = Convert.ToInt32(reader["Exitoso"]) == 1;
-                                resultado.Mensaje = reader["Mensaje"]?.ToString() ?? "Error desconocido";
-
-                                if (resultado.Exitoso)
-                                {
-                                    resultado.ICodPer = reader["iCodPer"] != DBNull.Value ? Convert.ToInt32(reader["iCodPer"]) : 0;
+                                if (Convert.ToInt32(reader["Exitoso"]) == 1)
+                                {                                  
+                                    resultado.Exitoso = true;
+                                    resultado.Mensaje = "Acceso concedido";
+                                    resultado.ICodPer = Convert.ToInt32(reader["iCodPer"]);
                                     resultado.VNombreCompleto = reader["vNombreCompleto"]?.ToString() ?? "Usuario";
-                                    // Opcional: Si el SP devuelve el DNI, guárdalo también
+                                    resultado.VEmail = reader["vEmail"]?.ToString() ?? ""; 
+
+                                    // GENERACIÓN DEL TOKEN
+                                    var info = new UsuarioInfo
+                                    {
+                                        ICodPer = resultado.ICodPer,
+                                        VNombreCompleto = resultado.VNombreCompleto,
+                                        Documento = documento
+                                    };
+
+                                    resultado.Token = GenerarTokenJwt(info);
                                 }
                             }
                         }
@@ -76,11 +127,40 @@ namespace MesaPartesDigital.Services
             }
             catch (Exception ex)
             {
-                resultado.Exitoso = false;
                 resultado.Mensaje = $"Error técnico: {ex.Message}";
             }
             return resultado;
         }
+
+        private string GenerarTokenJwt(UsuarioInfo usuario)
+        {
+            var secretKey = _configuration["Jwt:Key"];
+            var key = Encoding.ASCII.GetBytes(secretKey);
+
+            var claims = new[]
+            {
+        new Claim(ClaimTypes.NameIdentifier, usuario.ICodPer.ToString()),
+        new Claim(ClaimTypes.Name, usuario.VNombreCompleto),
+        new Claim("documento", usuario.Documento)
+    };
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(8),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityTokenHandler().CreateToken(tokenDescriptor));
+        }
+
+        public class UsuarioInfo
+        {
+            public int ICodPer { get; set; }
+            public string VNombreCompleto { get; set; } = string.Empty;
+            public string Documento { get; set; } = string.Empty;
+        }
+
 
         public async Task<GestionCredencialesResultDto> GestionarCredencialesAsync(string dni, string? codigoOtp, int tipoAccion)
         {

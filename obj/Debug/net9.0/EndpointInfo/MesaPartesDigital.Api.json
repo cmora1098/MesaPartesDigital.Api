@@ -2,7 +2,6 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Mesa de Partes Digital API",
-    "description": "API para la gestión de la Mesa de Partes Digital.",
     "version": "v1"
   },
   "paths": {
@@ -369,6 +368,68 @@
         }
       }
     },
+    "/api/documentos/registro-tramite-natural": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersNaturalDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersNaturalDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersNaturalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/registro-tramite-juridica": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersJuridicaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersJuridicaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersJuridicaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/personas/natural": {
       "get": {
         "tags": [
@@ -500,6 +561,32 @@
   "components": {
     "schemas": {
       "ArchivoRequest": {
+        "type": "object",
+        "properties": {
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArchivoRequestTPJ": {
+        "type": "object",
+        "properties": {
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArchivoRequestTPN": {
         "type": "object",
         "properties": {
           "vRutaDoc": {
@@ -748,6 +835,126 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ArchivoRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegTramitePersJuridicaDto": {
+        "type": "object",
+        "properties": {
+          "vRucEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "vRazonSocial": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodAsunto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vNroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "dFecDoc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vNombreAsunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "vReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNroPagFolios": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          },
+          "vLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "archivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchivoRequestTPJ"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegTramitePersNaturalDto": {
+        "type": "object",
+        "properties": {
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodAsunto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vNroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "dFecDoc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vNombreAsunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "vReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNroPagFolios": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          },
+          "vLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "archivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchivoRequestTPN"
             },
             "nullable": true
           }

@@ -262,48 +262,114 @@ namespace MesaPartesDigital.Services
 
             return historial;
         }
-
+         
         //// MANTENIDO: Trámite Interno Persona Natural
-        //public async Task<RegistroDocumentoResponse> RegistroTramiteInterno_Home(RegistroDocumentoRequest request)
-        //{
-        //    var response = new RegistroDocumentoResponse();
+        public async Task<RegistroDocumentoResponseTPN> RegistroTramiteInterno_PersNatural(RegTramitePersNaturalDto request)
+        {
+            var response = new RegistroDocumentoResponseTPN();
 
-        //    //using (var connection = new SqlConnection(_connectionString))
-        //    //{
-        //    //    using (var command = new SqlCommand("dbo.USP_RegistroTramiteInternoPersonaNatural", connection))
-        //    //    {
-        //    //        command.CommandType = CommandType.StoredProcedure;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand("dbo.USP_RegistroTramiteInternoPersonaNatural", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
 
-        //    //        command.Parameters.AddWithValue("@iCodPer", request.ICodPer);
-        //    //        command.Parameters.AddWithValue("@vEmail", request.VEmail);
+                    // 1. Parámetros de entrada
+                    command.Parameters.AddWithValue("@iCodPer", request.ICodPer);
+                    command.Parameters.AddWithValue("@vEmail", request.VEmail);
+                    command.Parameters.AddWithValue("@vRutaDoc", request.VRutaDoc);
+                    command.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
+                    command.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
+                    command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
+                    command.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
+                    command.Parameters.AddWithValue("@vReferencia", request.VReferencia);
+                    command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
+                    command.Parameters.AddWithValue("@btipo", request.BTipo);
+                    command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
 
-        //    //        command.Parameters.AddWithValue("@iCodAsunto", request.ICodAsunto);
-        //    //        command.Parameters.AddWithValue("@vRutaDoc", request.VRutaDoc);
-        //    //        command.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
-        //    //        command.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
-        //    //        command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
-        //    //        command.Parameters.AddWithValue("@vReferencia", request.VReferencia);
-        //    //        command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
-        //    //        command.Parameters.AddWithValue("@btipo", request.BTipo);
-        //    //        command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
-        //    //        command.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
+                    // 2. Parámetro OUTPUT (ICodAsunto)
+                    var pAsunto = new SqlParameter("@iCodAsunto", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.InputOutput,
+                        Value = request.ICodAsunto // Si es anexo, aquí vendrá el ID padre
+                    };
+                    command.Parameters.Add(pAsunto);
 
-        //    //        await connection.OpenAsync();
-        //    //        using (var reader = await command.ExecuteReaderAsync())
-        //    //        {
-        //    //            if (await reader.ReadAsync())
-        //    //            {
-        //    //                response.ICodDoc = Convert.ToInt32(reader["iCodDoc"]);
-        //    //                response.ICodAsunto = Convert.ToInt32(reader["iCodAsunto"]);
-        //    //                response.Status = reader["Status"].ToString() ?? "ERROR";
-        //    //                response.MailSeguimiento = reader["MailSeguimiento"].ToString() ?? "";
-        //    //                response.VAutoGenerado = reader["vAutoGenerado"] != DBNull.Value ? reader["vAutoGenerado"].ToString() : null;
-        //    //            }
-        //    //        }
-        //    //    }
-        //    //}
-        //    return response;
-        //}
+                    // 3. Ejecución y lectura de respuesta
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            response.ICodDoc = Convert.ToInt32(reader["iCodDoc"]);
+                            response.ICodAsunto = Convert.ToInt32(reader["iCodAsunto"]);
+                            response.Status = reader["Status"].ToString();
+                            response.MailSeguimiento = reader["MailSeguimiento"].ToString();
+                            response.VAutoGenerado = reader["vAutoGenerado"]?.ToString();
+                        }
+                    }
+                }
+            }
+            return response;
+        }
 
+        public async Task<RegistroDocumentoResponseTPJ> RegistroTramiteInterno_PersJuridica(RegTramitePersJuridicaDto request, int iCodPerUsuario, string vEmailUsuario)
+        {
+            var response = new RegistroDocumentoResponseTPJ();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand("dbo.USP_RegistroTramiteInternoPersonaJuridica", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // 1. Parámetros de Sesión
+                    command.Parameters.AddWithValue("@iCodPerUsuario", iCodPerUsuario);
+                    command.Parameters.AddWithValue("@vEmailUsuario", vEmailUsuario);
+
+                    // 2. Datos de la Empresa
+                    command.Parameters.AddWithValue("@vRucEmpresa", request.VRucEmpresa);
+                    command.Parameters.AddWithValue("@vRazonSocial", request.VRazonSocial);
+
+                    // 3. Datos del Documento
+                    command.Parameters.AddWithValue("@vRutaDoc", request.VRutaDoc);
+                    command.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
+                    command.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
+                    command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
+
+                    // NUEVO: Parámetro para el nombre del asunto
+                    command.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
+
+                    command.Parameters.AddWithValue("@vReferencia", request.VReferencia);
+                    command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
+                    command.Parameters.AddWithValue("@btipo", request.BTipo);
+                    command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
+
+                    // 4. Parámetro OUTPUT/INPUT (ICodAsunto)
+                    var pAsunto = new SqlParameter("@iCodAsunto", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.InputOutput,
+                        Value = request.ICodAsunto // Si es anexo, aquí viene el ID padre del bucle
+                    };
+                    command.Parameters.Add(pAsunto);
+
+                    // 5. Ejecución y lectura de respuesta
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            response.ICodDoc = Convert.ToInt32(reader["iCodDoc"]);
+                            response.ICodAsunto = Convert.ToInt32(reader["iCodAsunto"]);
+                            response.Status = reader["Status"].ToString() ?? string.Empty;
+                            response.MailSeguimiento = reader["MailSeguimiento"].ToString() ?? string.Empty;
+                            response.VAutoGenerado = reader["vAutoGenerado"]?.ToString();
+                        }
+                    }
+                }
+            }
+            return response;
+        } 
+    
     }
 }

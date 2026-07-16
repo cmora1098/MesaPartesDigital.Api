@@ -230,3 +230,5 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Debug\net9.0\refint\MesaPa
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Debug\net9.0\MesaPartesDigital.Api.pdb
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Debug\net9.0\MesaPartesDigital.Api.genruntimeconfig.cache
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Debug\net9.0\ref\MesaPartesDigital.Api.dll
+C:\Users\cmora\source\repos\MesaPartesDigital.Api\bin\Debug\net9.0\BCrypt-Net-Next.dll
+C:\Users\cmora\source\repos\MesaPartesDigital.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
