@@ -313,7 +313,7 @@ namespace MesaPartesDigital.Services
             return response;
         }
 
-        public async Task<RegistroDocumentoResponseTPJ> RegistroTramiteInterno_PersJuridica(RegTramitePersJuridicaDto request, int iCodPerUsuario, string vEmailUsuario)
+        public async Task<RegistroDocumentoResponseTPJ> RegistroTramiteInterno_PersJuridica(RegTramitePersJuridicaDto request)
         {
             var response = new RegistroDocumentoResponseTPJ();
 
@@ -325,24 +325,23 @@ namespace MesaPartesDigital.Services
                     command.CommandType = CommandType.StoredProcedure;
 
                     // 1. Parámetros de Sesión
-                    command.Parameters.AddWithValue("@iCodPerUsuario", iCodPerUsuario);
-                    command.Parameters.AddWithValue("@vEmailUsuario", vEmailUsuario);
+                    command.Parameters.AddWithValue("@ICodPer", request.ICodPer);
+                    command.Parameters.AddWithValue("@VEmail", request.VEmail);
 
                     // 2. Datos de la Empresa
-                    command.Parameters.AddWithValue("@vRucEmpresa", request.VRucEmpresa);
-                    command.Parameters.AddWithValue("@vRazonSocial", request.VRazonSocial);
+                    command.Parameters.AddWithValue("@vRucEmpresa", (object)request.VRucEmpresa ?? DBNull.Value);
 
                     // 3. Datos del Documento
-                    command.Parameters.AddWithValue("@vRutaDoc", request.VRutaDoc);
+                    command.Parameters.AddWithValue("@vRutaDoc", (object)request.VRutaDoc ?? DBNull.Value);
                     command.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
-                    command.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
+                    command.Parameters.AddWithValue("@vNroDoc", (object)request.VNroDoc ?? DBNull.Value);
                     command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
 
-                    // NUEVO: Parámetro para el nombre del asunto
-                    command.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
+                    // Parámetro para el nombre del asunto
+                    command.Parameters.AddWithValue("@vNombreAsunto", (object)request.VNombreAsunto ?? DBNull.Value);
 
-                    command.Parameters.AddWithValue("@vReferencia", request.VReferencia);
-                    command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
+                    command.Parameters.AddWithValue("@vReferencia", (object)request.VReferencia ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@vNroPagFolios", (object)request.VNroPagFolios ?? DBNull.Value);
                     command.Parameters.AddWithValue("@btipo", request.BTipo);
                     command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
 
@@ -350,26 +349,28 @@ namespace MesaPartesDigital.Services
                     var pAsunto = new SqlParameter("@iCodAsunto", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.InputOutput,
-                        Value = request.ICodAsunto // Si es anexo, aquí viene el ID padre del bucle
+                        Value = request.ICodAsunto
                     };
                     command.Parameters.Add(pAsunto);
 
-                    // 5. Ejecución y lectura de respuesta
+                    // 5. Ejecución y lectura
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            response.ICodDoc = Convert.ToInt32(reader["iCodDoc"]);
-                            response.ICodAsunto = Convert.ToInt32(reader["iCodAsunto"]);
-                            response.Status = reader["Status"].ToString() ?? string.Empty;
-                            response.MailSeguimiento = reader["MailSeguimiento"].ToString() ?? string.Empty;
+                            response.ICodDoc = reader["iCodDoc"] != DBNull.Value ? Convert.ToInt32(reader["iCodDoc"]) : 0;
+                            response.ICodAsunto = reader["iCodAsunto"] != DBNull.Value ? Convert.ToInt32(reader["iCodAsunto"]) : 0;
+                            response.Status = reader["Status"]?.ToString() ?? "ERROR";
+                            response.MailSeguimiento = reader["MailSeguimiento"]?.ToString() ?? string.Empty;
                             response.VAutoGenerado = reader["vAutoGenerado"]?.ToString();
                         }
                     }
+
+                    // Opcional: Si necesitas actualizar el ICodAsunto en el request original si fuera necesario
+                    request.ICodAsunto = (int)pAsunto.Value;
                 }
             }
             return response;
-        } 
-    
+        }
     }
 }

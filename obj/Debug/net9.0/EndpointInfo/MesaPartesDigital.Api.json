@@ -844,11 +844,15 @@
       "RegTramitePersJuridicaDto": {
         "type": "object",
         "properties": {
-          "vRucEmpresa": {
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vEmail": {
             "type": "string",
             "nullable": true
           },
-          "vRazonSocial": {
+          "vRucEmpresa": {
             "type": "string",
             "nullable": true
           },

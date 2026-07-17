@@ -2,26 +2,30 @@
 {
     public class RegTramitePersJuridicaDto
     {
-        // I. DATOS DE LA EMPRESA
-        public string VRucEmpresa { get; set; } = string.Empty;
-        public string VRazonSocial { get; set; } = string.Empty;
+        public int ICodPer { get; set; }
+        public string VEmail { get; set; } = string.Empty;
 
-        // II. DATOS DEL DOCUMENTO
-        public int ICodAsunto { get; set; }
+        // I. DATOS DE LA EMPRESA (Necesarios para sincronizar T_Contribuyente y T_Persona)
+        public string VRucEmpresa { get; set; } = string.Empty;
+ 
+        // II. DATOS DEL DOCUMENTO (Necesarios para el INSERT en T_Documento)
+        public int ICodAsunto { get; set; } // Usado para el ID del trámite en el SP (IN/OUT)
         public string VRutaDoc { get; set; } = string.Empty;
         public int ICodTipoDoc { get; set; }
         public string VNroDoc { get; set; } = string.Empty;
         public DateTime DFecDoc { get; set; } = DateTime.Today;
 
-        // Propiedad agregada para coincidir con el parámetro @vNombreAsunto del SP
+        // III. DATOS DEL ASUNTO (Necesarios para el INSERT en T_Asunto en la primera iteración)
         public string VNombreAsunto { get; set; } = string.Empty;
-
         public string VReferencia { get; set; } = string.Empty;
         public string VNroPagFolios { get; set; } = string.Empty;
+
+        // IV. CONTROL Y METADATA
         public bool BTipo { get; set; } // 1=Principal, 0=Anexo
         public string? VLink { get; set; }
 
-        // Archivos (Se procesan en el componente y se asignan aquí)
+        // V. COLECCIÓN DE ARCHIVOS
+        // Esta lista se usa en el Controlador para iterar y registrar cada documento
         public List<ArchivoRequestTPJ> Archivos { get; set; } = new();
     }
 

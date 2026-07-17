@@ -123,36 +123,32 @@ public sealed class DocumentosController : ControllerBase
     {
         try
         {
-            // 1. Obtención de datos de sesión desde el token
-            int iCodPerUsuario = int.Parse(User.FindFirst("nameid")?.Value ?? "0");
-            string vEmailUsuario = User.FindFirst("unique_name")?.Value ?? "";
-
             int? codAsuntoGenerado = null;
             RegistroDocumentoResponseTPJ ultimoResultado = null;
 
-            // 2. Iteración sobre la lista de archivos del DTO
+            // 2. Iteración sobre la lista de archivos
             foreach (var archivo in request.Archivos)
             {
                 // Creamos una solicitud específica para el SP
-                // Incluyendo VNombreAsunto para que el SP pueda registrar el asunto correctamente
                 var subRequest = new RegTramitePersJuridicaDto
                 {
-                    VRucEmpresa = request.VRucEmpresa,
-                    VRazonSocial = request.VRazonSocial,
-                    ICodAsunto = codAsuntoGenerado ?? 0,
+                    ICodPer = request.ICodPer,
+                    VEmail = request.VEmail,
+                    VRucEmpresa = request.VRucEmpresa,                   
+                    ICodAsunto = codAsuntoGenerado ?? 0, // Si es 1ro, 0. Si es 2do+, usa el ID del 1ro
                     VRutaDoc = archivo.VRutaDoc,
                     ICodTipoDoc = request.ICodTipoDoc,
                     VNroDoc = request.VNroDoc,
                     DFecDoc = request.DFecDoc,
-                    VNombreAsunto = request.VNombreAsunto, // <--- CAMBIO: Agregado
+                    VNombreAsunto = request.VNombreAsunto,
                     VReferencia = request.VReferencia,
                     VNroPagFolios = request.VNroPagFolios,
                     BTipo = archivo.BTipo,
                     VLink = request.VLink
                 };
 
-                // 3. Llamada al servicio
-                var resultado = await _service.RegistroTramiteInterno_PersJuridica(subRequest, iCodPerUsuario, vEmailUsuario);
+                // 3. Llamada al servicio con parámetros de sesión
+                var resultado = await _service.RegistroTramiteInterno_PersJuridica(subRequest);
 
                 // 4. Capturamos el ID de asunto solo en la primera vuelta
                 if (codAsuntoGenerado == null)
@@ -162,17 +158,19 @@ public sealed class DocumentosController : ControllerBase
                 }
             }
 
-            // 5. Envío de correo de confirmación
+            // 5. Envío de correo de confirmación (una sola vez)
             if (ultimoResultado != null)
             {
-                _ = _emailService.EnviarConfirmacionTramiteAsync(vEmailUsuario, ultimoResultado.VAutoGenerado, request.VNombreAsunto);
+                _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, ultimoResultado.VAutoGenerado, request.VNombreAsunto);
             }
 
             return Ok(ultimoResultado);
         }
         catch (Exception ex)
         {
+            // Log del error aquí si es necesario
             return BadRequest(new { mensaje = "Error al registrar el trámite de persona jurídica", error = ex.Message });
         }
     }
+
 }
