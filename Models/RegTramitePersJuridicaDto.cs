@@ -7,7 +7,8 @@
 
         // I. DATOS DE LA EMPRESA (Necesarios para sincronizar T_Contribuyente y T_Persona)
         public string VRucEmpresa { get; set; } = string.Empty;
- 
+        public string VRazonSocial { get; set; } = string.Empty;
+        
         // II. DATOS DEL DOCUMENTO (Necesarios para el INSERT en T_Documento)
         public int ICodAsunto { get; set; } // Usado para el ID del trámite en el SP (IN/OUT)
         public string VRutaDoc { get; set; } = string.Empty;

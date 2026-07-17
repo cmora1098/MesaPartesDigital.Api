@@ -70,52 +70,23 @@ public sealed class DocumentosController : ControllerBase
     {
         try
         {
-            int? codAsuntoGenerado = null;
-            RegistroDocumentoResponseTPN ultimoResultado = null;
+            // El servicio registra lo que venga (ya sea principal o anexo)
+            var resultado = await _service.RegistroTramiteInterno_PersNatural(request);
 
-            // Iteramos sobre todos los archivos enviados en la lista
-            foreach (var archivo in request.Archivos)
+            // Si es el documento principal (BTipo == 0 o false), enviamos el correo
+            // Nota: Asegúrate de que request.BTipo sea el valor correcto enviado desde el front
+            if (request.BTipo == false)
             {
-                // Creamos una solicitud temporal basada en el archivo actual
-                var subRequest = new RegTramitePersNaturalDto
-                {
-                    ICodPer = request.ICodPer,
-                    VEmail = request.VEmail,
-                    ICodAsunto = codAsuntoGenerado ?? 0, // Si es el 1ro, 0. Si es 2do+, usa el ID del 1ro
-                    VRutaDoc = archivo.VRutaDoc,
-                    ICodTipoDoc = request.ICodTipoDoc,
-                    VNroDoc = request.VNroDoc,
-                    DFecDoc = request.DFecDoc,
-                    VNombreAsunto = request.VNombreAsunto,
-                    VReferencia = request.VReferencia,
-                    VNroPagFolios = request.VNroPagFolios,
-                    BTipo = archivo.BTipo // true para el principal, false para anexos
-                };
-
-                // Llamamos al servicio para este archivo específico
-                var resultado = await _service.RegistroTramiteInterno_PersNatural(subRequest);
-
-                // Guardamos el resultado del primero (el principal) para usar su ID en los siguientes
-                if (codAsuntoGenerado == null)
-                {
-                    codAsuntoGenerado = resultado.ICodAsunto;
-                    ultimoResultado = resultado;
-                }
+                _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, resultado.VAutoGenerado, request.VNombreAsunto);
             }
 
-            // Envío de correo (solo una vez, después de procesar todo)
-            if (ultimoResultado != null)
-            {
-                _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, ultimoResultado.VAutoGenerado, request.VNombreAsunto);
-            }
-
-            return Ok(ultimoResultado);
+            return Ok(resultado);
         }
         catch (Exception ex)
         {
-            // Log del error aquí (ej. _logger.LogError(ex, "Error en registro"))
-            return BadRequest(new { mensaje = "Error al procesar el trámite", error = ex.Message });
+            return BadRequest(new { mensaje = ex.Message });
         }
+
     }
 
     [HttpPost("registro-tramite-juridica")]
@@ -123,54 +94,27 @@ public sealed class DocumentosController : ControllerBase
     {
         try
         {
-            int? codAsuntoGenerado = null;
-            RegistroDocumentoResponseTPJ ultimoResultado = null;
+            // 1. Registro a través del servicio
+            // El servicio ya se encarga de ordenar y procesar los archivos
+            var resultado = await _service.RegistroTramiteInterno_PersJuridica(request);
 
-            // 2. Iteración sobre la lista de archivos
-            foreach (var archivo in request.Archivos)
+            // 2. Envío de correo
+            // Usamos el resultado devuelto por el servicio. 
+            // Si resultado.VAutoGenerado tiene valor, significa que el trámite principal se creó con éxito.
+            if (!string.IsNullOrEmpty(resultado.VAutoGenerado))
             {
-                // Creamos una solicitud específica para el SP
-                var subRequest = new RegTramitePersJuridicaDto
-                {
-                    ICodPer = request.ICodPer,
-                    VEmail = request.VEmail,
-                    VRucEmpresa = request.VRucEmpresa,                   
-                    ICodAsunto = codAsuntoGenerado ?? 0, // Si es 1ro, 0. Si es 2do+, usa el ID del 1ro
-                    VRutaDoc = archivo.VRutaDoc,
-                    ICodTipoDoc = request.ICodTipoDoc,
-                    VNroDoc = request.VNroDoc,
-                    DFecDoc = request.DFecDoc,
-                    VNombreAsunto = request.VNombreAsunto,
-                    VReferencia = request.VReferencia,
-                    VNroPagFolios = request.VNroPagFolios,
-                    BTipo = archivo.BTipo,
-                    VLink = request.VLink
-                };
-
-                // 3. Llamada al servicio con parámetros de sesión
-                var resultado = await _service.RegistroTramiteInterno_PersJuridica(subRequest);
-
-                // 4. Capturamos el ID de asunto solo en la primera vuelta
-                if (codAsuntoGenerado == null)
-                {
-                    codAsuntoGenerado = resultado.ICodAsunto;
-                    ultimoResultado = resultado;
-                }
+                _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, resultado.VAutoGenerado, request.VNombreAsunto);
             }
 
-            // 5. Envío de correo de confirmación (una sola vez)
-            if (ultimoResultado != null)
-            {
-                _ = _emailService.EnviarConfirmacionTramiteAsync(request.VEmail, ultimoResultado.VAutoGenerado, request.VNombreAsunto);
-            }
-
-            return Ok(ultimoResultado);
+            return Ok(resultado);
         }
         catch (Exception ex)
         {
-            // Log del error aquí si es necesario
-            return BadRequest(new { mensaje = "Error al registrar el trámite de persona jurídica", error = ex.Message });
+            // Registro del error (log) y retorno al cliente
+            return BadRequest(new { mensaje = "Error al registrar el trámite", detalle = ex.Message });
         }
     }
+
+
 
 }

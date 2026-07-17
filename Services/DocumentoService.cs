@@ -123,16 +123,18 @@ namespace MesaPartesDigital.Services
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            // Aquí NO usamos transacción global porque el SP ya tiene una interna
             RegistroDocumentoResponse respuesta = new RegistroDocumentoResponse();
             int? codAsuntoActual = null;
 
-            foreach (var archivo in request.Archivos)
+            // Asegurarse de que los archivos estén ordenados: Principal (false) primero, Anexos (true) después
+            var archivosOrdenados = request.Archivos.OrderBy(a => a.BTipo).ToList();
+
+            foreach (var archivo in archivosOrdenados)
             {
                 using var cmd = new SqlCommand("USP_RegistroPersonaNatural", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Parámetros de Persona (son los mismos para todos los archivos)
+                // Parámetros de Persona
                 cmd.Parameters.AddWithValue("@iCodTipoDocPer", request.ICodTipoDocPer);
                 cmd.Parameters.AddWithValue("@vDocPer", request.VDocPer);
                 cmd.Parameters.AddWithValue("@vNombres", request.VNombres);
@@ -144,20 +146,25 @@ namespace MesaPartesDigital.Services
                 cmd.Parameters.AddWithValue("@vCodDistrito", request.VCodDistrito);
 
                 // Parámetros del Documento
-                cmd.Parameters.AddWithValue("@iCodAsunto", codAsuntoActual ?? (object)DBNull.Value);
+                // En la primera vuelta (principal) será null, en las siguientes será el ID generado
+                cmd.Parameters.AddWithValue("@iCodAsunto", (object)codAsuntoActual ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
                 cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                 cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                 cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
                 cmd.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
-                cmd.Parameters.AddWithValue("@vReferencia", archivo.BTipo ? request.VReferencia : "ANEXO");
+
+                // Lógica de Referencia: Si es principal (false) usa la referencia del form, si es anexo usa "ANEXO"
+                cmd.Parameters.AddWithValue("@vReferencia", !archivo.BTipo ? request.VReferencia : "ANEXO");
+
                 cmd.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
                 cmd.Parameters.AddWithValue("@btipo", archivo.BTipo);
 
                 using var reader = await cmd.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
-                    if (archivo.BTipo) // Si es el principal, guardamos el Asunto generado
+                    // Solo capturamos datos si es el documento principal (BTipo = false)
+                    if (!archivo.BTipo)
                     {
                         codAsuntoActual = reader.GetInt32(reader.GetOrdinal("iCodAsunto"));
                         respuesta.ICodAsunto = codAsuntoActual.Value;
@@ -167,60 +174,78 @@ namespace MesaPartesDigital.Services
                 }
                 reader.Close();
             }
+
             return respuesta;
         }
 
-        public async Task<RegistroDocumentoResponse> RegistroPersonaJuridica_Home(PersonaJuridicaHomeDto request)
+        public async Task<RegistroDocumentoResponsePJH> RegistroPersonaJuridica_Home(PersonaJuridicaHomeDto request)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            RegistroDocumentoResponse respuesta = new RegistroDocumentoResponse();
+            RegistroDocumentoResponsePJH respuesta = new RegistroDocumentoResponsePJH();
             int? codAsuntoActual = null;
 
-            foreach (var archivo in request.Archivos)
+            // Ordenar: false (0) va antes que true (1). El Principal será el primero.
+            var archivosOrdenados = request.Archivos.OrderBy(a => a.BTipo).ToList();
+
+            foreach (var archivo in archivosOrdenados)
             {
-                // Llamamos al nuevo SP que creamos
                 using var cmd = new SqlCommand("USP_RegistroPersonaJuridica", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // 1. Parámetros del Representante Legal (Persona Natural)
-                cmd.Parameters.AddWithValue("@iCodTipoDocPer", request.ICodTipoDocPer);
-                cmd.Parameters.AddWithValue("@vDocPer", request.VDocPer);
-                cmd.Parameters.AddWithValue("@vNombres", request.VNombres);
-                cmd.Parameters.AddWithValue("@vApellidoPaterno", request.VApellidoPaterno);
-                cmd.Parameters.AddWithValue("@vApellidoMaterno", request.VApellidoMaterno);
-                cmd.Parameters.AddWithValue("@vEmail", request.VEmail);
-                cmd.Parameters.AddWithValue("@vTelefono", request.VTelefono);
-                cmd.Parameters.AddWithValue("@vDireccion", request.VDireccion);
-                cmd.Parameters.AddWithValue("@vCodDistrito", request.VCodDistrito);
-
-                // 2. Parámetros de la Empresa (Persona Jurídica)
-                cmd.Parameters.AddWithValue("@vRUC", request.VRUC);
+                // I. Datos Empresa
+                cmd.Parameters.AddWithValue("@vRucEmpresa", request.vRucEmpresa);
                 cmd.Parameters.AddWithValue("@vRazonSocial", request.VRazonSocial);
 
-                // 3. Parámetros del Documento
-                cmd.Parameters.AddWithValue("@iCodAsunto", codAsuntoActual ?? (object)DBNull.Value);
+                // II. Datos Representante
+                cmd.Parameters.AddWithValue("@iCodTipoDocRep", request.ICodTipoDocPer);
+                cmd.Parameters.AddWithValue("@vDocRep", request.VDocPer);
+                cmd.Parameters.AddWithValue("@vNombresRep", request.VNombres);
+                cmd.Parameters.AddWithValue("@vApellidoPaternoRep", request.VApellidoPaterno);
+                cmd.Parameters.AddWithValue("@vApellidoMaternoRep", request.VApellidoMaterno);
+                cmd.Parameters.AddWithValue("@vEmailRep", request.VEmail);
+                cmd.Parameters.AddWithValue("@vTelefonoRep", request.VTelefono);
+                cmd.Parameters.AddWithValue("@vDireccionRep", request.VDireccion);
+                cmd.Parameters.AddWithValue("@vCodDistritoRep", request.VCodDistrito);
+
+                // III. Datos Documento
+                cmd.Parameters.AddWithValue("@iCodAsunto", (object)codAsuntoActual ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
                 cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                 cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                 cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
                 cmd.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
-                cmd.Parameters.AddWithValue("@vReferencia", archivo.BTipo ? request.VReferencia : "ANEXO");
+                cmd.Parameters.AddWithValue("@vReferencia", !archivo.BTipo ? request.VReferencia : "ANEXO");
                 cmd.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
-                cmd.Parameters.AddWithValue("@btipo", archivo.BTipo);
+                cmd.Parameters.AddWithValue("@btipo", archivo.BTipo); // 0=Principal, 1=Anexo
+
+                //using var reader = await cmd.ExecuteReaderAsync();
+                //if (await reader.ReadAsync())
+                //{
+                //    // Solo capturamos si es el Principal (0)
+                //    if (!archivo.BTipo)
+                //    {
+                //        codAsuntoActual = reader.GetInt32(reader.GetOrdinal("iCodAsunto"));
+                //        respuesta.ICodAsunto = codAsuntoActual.Value;
+                //        respuesta.ICodDoc = reader.GetInt32(reader.GetOrdinal("iCodDoc"));
+                //        respuesta.VAutoGenerado = reader["vAutoGenerado"].ToString();
+                //        respuesta.Status = reader["Status"].ToString();
+                //        respuesta.MailSeguimiento = reader["MailSeguimiento"].ToString();
+                //    }
+                //}
+                //reader.Close();
 
                 using var reader = await cmd.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
-                    if (archivo.BTipo) // Si es el principal, capturamos la info generada
+                    // Solo capturamos datos si es el documento principal (BTipo = false)
+                    if (!archivo.BTipo)
                     {
                         codAsuntoActual = reader.GetInt32(reader.GetOrdinal("iCodAsunto"));
                         respuesta.ICodAsunto = codAsuntoActual.Value;
-                        respuesta.ICodDoc = reader.GetInt32(reader.GetOrdinal("iCodDoc"));
                         respuesta.VAutoGenerado = reader["vAutoGenerado"].ToString();
                         respuesta.MailSeguimiento = request.VEmail;
-                        respuesta.Status = reader["Status"].ToString();
                     }
                 }
                 reader.Close();
@@ -315,62 +340,52 @@ namespace MesaPartesDigital.Services
 
         public async Task<RegistroDocumentoResponseTPJ> RegistroTramiteInterno_PersJuridica(RegTramitePersJuridicaDto request)
         {
-            var response = new RegistroDocumentoResponseTPJ();
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
 
-            using (var connection = new SqlConnection(_connectionString))
+            RegistroDocumentoResponseTPJ respuesta = new RegistroDocumentoResponseTPJ();
+            int? codAsuntoActual = null;
+
+            // Ordenar: 0 (Principal) va antes que 1 (Anexo).
+            var archivosOrdenados = request.Archivos.OrderBy(a => a.BTipo).ToList();
+
+            foreach (var archivo in archivosOrdenados)
             {
-                await connection.OpenAsync();
-                using (var command = new SqlCommand("dbo.USP_RegistroTramiteInternoPersonaJuridica", connection))
+                using var cmd = new SqlCommand("USP_RegistroTramiteInternoPersonaJuridica", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@iCodPer", request.ICodPer);
+                cmd.Parameters.AddWithValue("@vEmail", request.VEmail);
+                cmd.Parameters.AddWithValue("@vRucEmpresa", request.VRucEmpresa);
+                cmd.Parameters.AddWithValue("@vRazonSocial", request.VRazonSocial);
+
+                // Si es el principal (0), enviamos NULL. Si es anexo (1), enviamos el ID capturado.
+                cmd.Parameters.AddWithValue("@iCodAsunto", (object)codAsuntoActual ?? DBNull.Value);
+
+                cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
+                cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
+                cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
+                cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
+                cmd.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
+                cmd.Parameters.AddWithValue("@vReferencia", !archivo.BTipo ? request.VReferencia : "ANEXO");
+                cmd.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
+                cmd.Parameters.AddWithValue("@btipo", archivo.BTipo ? 1 : 0);
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    // 1. Parámetros de Sesión
-                    command.Parameters.AddWithValue("@ICodPer", request.ICodPer);
-                    command.Parameters.AddWithValue("@VEmail", request.VEmail);
-
-                    // 2. Datos de la Empresa
-                    command.Parameters.AddWithValue("@vRucEmpresa", (object)request.VRucEmpresa ?? DBNull.Value);
-
-                    // 3. Datos del Documento
-                    command.Parameters.AddWithValue("@vRutaDoc", (object)request.VRutaDoc ?? DBNull.Value);
-                    command.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
-                    command.Parameters.AddWithValue("@vNroDoc", (object)request.VNroDoc ?? DBNull.Value);
-                    command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
-
-                    // Parámetro para el nombre del asunto
-                    command.Parameters.AddWithValue("@vNombreAsunto", (object)request.VNombreAsunto ?? DBNull.Value);
-
-                    command.Parameters.AddWithValue("@vReferencia", (object)request.VReferencia ?? DBNull.Value);
-                    command.Parameters.AddWithValue("@vNroPagFolios", (object)request.VNroPagFolios ?? DBNull.Value);
-                    command.Parameters.AddWithValue("@btipo", request.BTipo);
-                    command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
-
-                    // 4. Parámetro OUTPUT/INPUT (ICodAsunto)
-                    var pAsunto = new SqlParameter("@iCodAsunto", SqlDbType.Int)
+                    // Solo capturamos el ID si estamos procesando el principal (archivo.BTipo == false)
+                    if (!archivo.BTipo)
                     {
-                        Direction = ParameterDirection.InputOutput,
-                        Value = request.ICodAsunto
-                    };
-                    command.Parameters.Add(pAsunto);
-
-                    // 5. Ejecución y lectura
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            response.ICodDoc = reader["iCodDoc"] != DBNull.Value ? Convert.ToInt32(reader["iCodDoc"]) : 0;
-                            response.ICodAsunto = reader["iCodAsunto"] != DBNull.Value ? Convert.ToInt32(reader["iCodAsunto"]) : 0;
-                            response.Status = reader["Status"]?.ToString() ?? "ERROR";
-                            response.MailSeguimiento = reader["MailSeguimiento"]?.ToString() ?? string.Empty;
-                            response.VAutoGenerado = reader["vAutoGenerado"]?.ToString();
-                        }
+                        codAsuntoActual = reader.GetInt32(reader.GetOrdinal("iCodAsunto"));
+                        respuesta.ICodAsunto = codAsuntoActual.Value;
+                        respuesta.VAutoGenerado = reader["vAutoGenerado"].ToString();
+                        respuesta.MailSeguimiento = request.VEmail;
                     }
-
-                    // Opcional: Si necesitas actualizar el ICodAsunto en el request original si fuera necesario
-                    request.ICodAsunto = (int)pAsunto.Value;
                 }
+                reader.Close();
             }
-            return response;
+            return respuesta;
         }
     }
 }
