@@ -153,6 +153,107 @@
   },
   {
     "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "ActualizarDatosDocumento",
+    "RelativePath": "api/documentos/actualizar-datos-documento",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaPartesDigital.Api.Models.AsuntoEdicionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "ActualizarDatosExpediente",
+    "RelativePath": "api/documentos/actualizar-datos-expediente",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaPartesDigital.Api.Models.AsuntoEdicionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "ActualizarDocumentoPrincipal",
+    "RelativePath": "api/documentos/actualizar-documento-principal/{idAsunto}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idAsunto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "archivo",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "CambiarEstadoTramite",
+    "RelativePath": "api/documentos/cambiar-estado/{iCodAsunto}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "iCodAsunto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "GetAsunto",
+    "RelativePath": "api/documentos/DatosRegistrados/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "EliminarAnexoTramite",
+    "RelativePath": "api/documentos/eliminar-anexo/{iCodDoc}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "iCodDoc",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
     "Method": "Historial",
     "RelativePath": "api/documentos/historial/{personaId}",
     "HttpMethod": "GET",
@@ -162,6 +263,53 @@
       {
         "Name": "personaId",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "ListarAnexos",
+    "RelativePath": "api/documentos/listar-anexos/{iCodAsunto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "iCodAsunto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[MesaPartesDigital.Api.Models.AnexoDto, MesaPartesDigital.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "RegistrarAnexos",
+    "RelativePath": "api/documentos/registrar-anexos/{iCodAsunto}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "iCodAsunto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "archivosNuevos",
+        "Type": "System.Collections.Generic.List\u00601[[MesaPartesDigital.Api.Models.ArchivoAdjunto, MesaPartesDigital.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
@@ -239,6 +387,38 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "VerArchivoAnexo",
+    "RelativePath": "api/documentos/ver-archivo-anexo/{iCodDoc}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "iCodDoc",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.DocumentosController",
+    "Method": "VerArchivoPorId",
+    "RelativePath": "api/documentos/ver-archivo/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

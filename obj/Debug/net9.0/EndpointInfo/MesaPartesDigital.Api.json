@@ -368,6 +368,326 @@
         }
       }
     },
+    "/api/documentos/DatosRegistrados/{id}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/actualizar-datos-expediente": {
+      "put": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/actualizar-datos-documento": {
+      "put": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/ver-archivo/{id}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/actualizar-documento-principal/{idAsunto}": {
+      "put": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "idAsunto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "archivo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "archivo": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/listar-anexos/{iCodAsunto}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodAsunto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnexoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnexoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnexoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/documentos/ver-archivo-anexo/{iCodDoc}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodDoc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/eliminar-anexo/{iCodDoc}": {
+      "delete": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodDoc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/registrar-anexos/{iCodAsunto}": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodAsunto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ArchivoAdjunto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ArchivoAdjunto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ArchivoAdjunto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/documentos/cambiar-estado/{iCodAsunto}": {
+      "put": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodAsunto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/documentos/registro-tramite-natural": {
       "post": {
         "tags": [
@@ -560,6 +880,62 @@
   },
   "components": {
     "schemas": {
+      "AnexoDto": {
+        "type": "object",
+        "properties": {
+          "iCodDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "iCodAsunto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "ruta": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArchivoAdjunto": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipo": {
+            "type": "string",
+            "nullable": true
+          },
+          "tamano": {
+            "type": "string",
+            "nullable": true
+          },
+          "contenido": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "fileBrowser": {
+            "$ref": "#/components/schemas/IBrowserFile"
+          }
+        },
+        "additionalProperties": false
+      },
       "ArchivoRequest": {
         "type": "object",
         "properties": {
@@ -612,6 +988,92 @@
         },
         "additionalProperties": false
       },
+      "AsuntoEdicionDto": {
+        "type": "object",
+        "properties": {
+          "iCodAsunto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "asuntoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "cutTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoDependencia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombreDependencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "correoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nroDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "foliosDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaDocumento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "refDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "rutaDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoTramite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rucTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "cambiosRealizados": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CargoRequest": {
         "type": "object",
         "properties": {
@@ -658,6 +1120,32 @@
           "tipoAccion": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IBrowserFile": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "contentType": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
