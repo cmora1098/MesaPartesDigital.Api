@@ -3,20 +3,29 @@ using MesaPartesDigital.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.Common;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MesaPartesDigital.Services
 {
     public class DocumentoService
     {
-        //private readonly string _rutaLocalPC = @"C:\MesaDePartesLocal\Archivos";
-        private readonly string _rutaLocalPC = @"C:\MesaDePartesLocal\REGDOC";
+        //private readonly string _FTP = @"C:\MesaDePartesLocal\Archivos";
+        //private readonly string _FTP = @"C:\MesaDePartesLocal\REGDOC";
+        
+        private readonly string _FTP;
         private readonly string _connectionString;
+        private readonly string _relativePath;
 
-        public DocumentoService(IConfiguration configuration)
+
+        public DocumentoService(IConfiguration configuration, IOptions<StorageSettings> storageOptions)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection")!;
+            _FTP = storageOptions.Value.RootPath;
+            _relativePath = storageOptions.Value.RelativePath; 
+
         }
 
         // Dentro de tu DocumentoService.cs o CatalogosService.cs
@@ -46,79 +55,6 @@ namespace MesaPartesDigital.Services
             return lista;
         }
 
-        // 🟢 MANTENIDO: Guarda el archivo principal estructurado por Año/Mes
-        //public async Task<string> GuardarArchivoEnPCAsync(IBrowserFile archivo)
-        //{
-        //    if (archivo == null) return null;
-
-        //    try
-        //    {
-        //        string anioActual = DateTime.Now.ToString("yyyy");
-        //        string mesActual = DateTime.Now.ToString("MM");
-        //        string rutaDestinoFinal = Path.Combine(_rutaLocalPC, anioActual, mesActual);
-
-        //        if (!Directory.Exists(rutaDestinoFinal))
-        //        {
-        //            Directory.CreateDirectory(rutaDestinoFinal);
-        //        }
-
-        //        string extension = Path.GetExtension(archivo.Name);
-        //        string nombreLimpio = Path.GetFileNameWithoutExtension(archivo.Name).Replace(" ", "_");
-        //        string nombreUnicoArchivo = $"{Guid.NewGuid()}__{nombreLimpio}{extension}";
-        //        string rutaCompletaPC = Path.Combine(rutaDestinoFinal, nombreUnicoArchivo);
-
-        //        long maxFileSize = 50 * 1024 * 1024; // 50MB
-
-        //        using var streamInput = archivo.OpenReadStream(maxFileSize);
-        //        using var streamOutput = File.Create(rutaCompletaPC);
-
-        //        await streamInput.CopyToAsync(streamOutput);
-
-        //        return rutaCompletaPC;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error al guardar archivo en PC: {ex.Message}");
-        //        throw;
-        //    }
-        //}
-
-        // 🟢 MANTENIDO: Para los Anexos en Base64 (Alineado a la misma estructura Año/Mes)
-        //public async Task<string> GuardarArchivoEnPCAsync(string nombreArchivo, string base64Data)
-        //{
-        //    if (string.IsNullOrEmpty(base64Data)) return null;
-
-        //    try
-        //    {
-        //        string anioActual = DateTime.Now.ToString("yyyy");
-        //        string mesActual = DateTime.Now.ToString("MM");
-        //        string rutaDestinoFinal = Path.Combine(_rutaLocalPC, anioActual, mesActual);
-
-        //        if (!Directory.Exists(rutaDestinoFinal))
-        //        {
-        //            Directory.CreateDirectory(rutaDestinoFinal);
-        //        }
-
-        //        if (base64Data.Contains(","))
-        //        {
-        //            base64Data = base64Data.Split(',')[1];
-        //        }
-
-        //        byte[] archivoBytes = Convert.FromBase64String(base64Data);
-        //        string nombreLimpio = nombreArchivo.Replace(" ", "_");
-        //        string nombreUnico = $"{Guid.NewGuid()}_{nombreLimpio}";
-        //        string rutaCompleta = Path.Combine(rutaDestinoFinal, nombreUnico);
-
-        //        await File.WriteAllBytesAsync(rutaCompleta, archivoBytes);
-        //        return rutaCompleta;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"[DocumentoService] 🚨 Error al decodificar y guardar Base64: {ex.Message}");
-        //        throw;
-        //    }
-        //}
-
         // 🟢 Guardado de archivos (Sin estructura Año/Mes)
         public async Task<string> GuardarArchivoEnPCAsync(IBrowserFile archivo)
         {
@@ -126,18 +62,16 @@ namespace MesaPartesDigital.Services
 
             try
             {
-                // Asegurar que la carpeta raíz exista
-                if (!Directory.Exists(_rutaLocalPC))
+                if (!Directory.Exists(_FTP))
                 {
-                    Directory.CreateDirectory(_rutaLocalPC);
+                    Directory.CreateDirectory(_FTP);
                 }
 
                 string extension = Path.GetExtension(archivo.Name);
                 string nombreLimpio = Path.GetFileNameWithoutExtension(archivo.Name).Replace(" ", "_");
-                string nombreUnicoArchivo = $"{Guid.NewGuid()}__{nombreLimpio}{extension}";
+                string nombreUnicoArchivo = $"{Guid.NewGuid():N}__{nombreLimpio}{extension}";
 
-                // La ruta destino es ahora directamente la raíz REGDOC
-                string rutaCompletaPC = Path.Combine(_rutaLocalPC, nombreUnicoArchivo);
+                string rutaCompletaPC = Path.Combine(_FTP, nombreUnicoArchivo);
 
                 long maxFileSize = 50 * 1024 * 1024; // 50MB
 
@@ -146,9 +80,12 @@ namespace MesaPartesDigital.Services
 
                 await streamInput.CopyToAsync(streamOutput);
 
-                return rutaCompletaPC;
+                // Solución: Construir la ruta relativa limpia con '/'
+                var rutaBD = $"{_relativePath.TrimEnd('/', '\\')}/{nombreUnicoArchivo}";
+
+                return rutaBD;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine($"Error al guardar archivo en PC: {ex.Message}");
                 throw;
@@ -162,9 +99,9 @@ namespace MesaPartesDigital.Services
 
             try
             {
-                if (!Directory.Exists(_rutaLocalPC))
+                if (!Directory.Exists(_FTP))
                 {
-                    Directory.CreateDirectory(_rutaLocalPC);
+                    Directory.CreateDirectory(_FTP);
                 }
 
                 if (base64Data.Contains(","))
@@ -174,21 +111,24 @@ namespace MesaPartesDigital.Services
 
                 byte[] archivoBytes = Convert.FromBase64String(base64Data);
                 string nombreLimpio = nombreArchivo.Replace(" ", "_");
-                string nombreUnico = $"{Guid.NewGuid()}_{nombreLimpio}";
+                string nombreUnico = $"{Guid.NewGuid():N}_{nombreLimpio}";
 
-                // La ruta destino es ahora directamente la raíz REGDOC
-                string rutaCompleta = Path.Combine(_rutaLocalPC, nombreUnico);
+                string rutaCompleta = Path.Combine(_FTP, nombreUnico);
 
                 await File.WriteAllBytesAsync(rutaCompleta, archivoBytes);
-                return rutaCompleta;
+
+                // Solución: Construir la ruta relativa limpia con '/'
+                var rutaBD = $"{_relativePath.TrimEnd('/', '\\')}/{nombreUnico}";
+
+                return rutaBD;
             }
-            catch (Exception ex)
+            catch(Exception ex) 
             {
                 Console.WriteLine($"[DocumentoService] 🚨 Error al decodificar y guardar Base64: {ex.Message}");
                 throw;
             }
         }
-         
+        
         // MANTENIDO: Registro Persona Natural Externa
         public async Task<RegistroDocumentoResponse> RegistroPersonaNatural_Home(PersonaNaturalHomeDto request)
         {
@@ -220,7 +160,11 @@ namespace MesaPartesDigital.Services
                 // Parámetros del Documento
                 // En la primera vuelta (principal) será null, en las siguientes será el ID generado
                 cmd.Parameters.AddWithValue("@iCodAsunto", (object)codAsuntoActual ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
+                string rutaLimpia = !string.IsNullOrEmpty(archivo.VRutaDoc)
+                                               ? $"{_relativePath.TrimEnd('/', '\\')}/{Path.GetFileName(archivo.VRutaDoc)}"
+                                               : string.Empty;
+                cmd.Parameters.AddWithValue("@vRutaDoc", rutaLimpia);
+                //cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
                 cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                 cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                 cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
@@ -285,7 +229,11 @@ namespace MesaPartesDigital.Services
 
                 // III. Datos Documento
                 cmd.Parameters.AddWithValue("@iCodAsunto", (object)codAsuntoActual ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
+                string rutaLimpia = !string.IsNullOrEmpty(archivo.VRutaDoc)
+                                              ? $"{_relativePath.TrimEnd('/', '\\')}/{Path.GetFileName(archivo.VRutaDoc)}"
+                                              : string.Empty;
+                cmd.Parameters.AddWithValue("@vRutaDoc", rutaLimpia);
+                //cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
                 cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                 cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                 cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
@@ -611,16 +559,16 @@ namespace MesaPartesDigital.Services
                 foreach (var archivo in archivosNuevos)
                 {
                     // 1. Asegurar que la carpeta raíz exista
-                    if (!Directory.Exists(_rutaLocalPC))
+                    if (!Directory.Exists(_FTP))
                     {
-                        Directory.CreateDirectory(_rutaLocalPC);
+                        Directory.CreateDirectory(_FTP);
                     }
 
                     // 2. Generar nombre único y ruta completa en REGDOC
                     string extension = Path.GetExtension(archivo.Nombre);
                     string nombreLimpio = Path.GetFileNameWithoutExtension(archivo.Nombre).Replace(" ", "_");
                     string nombreUnicoArchivo = $"{Guid.NewGuid()}__{nombreLimpio}{extension}";
-                    string rutaCompletaPC = Path.Combine(_rutaLocalPC, nombreUnicoArchivo);
+                    string rutaCompletaPC = Path.Combine(_FTP, nombreUnicoArchivo);
 
                     // 3. Guardar el archivo físicamente en el disco usando los bytes
                     await File.WriteAllBytesAsync(rutaCompletaPC, archivo.Contenido);
@@ -718,7 +666,11 @@ namespace MesaPartesDigital.Services
                     // 1. Parámetros de entrada
                     command.Parameters.AddWithValue("@iCodPer", request.ICodPer);
                     command.Parameters.AddWithValue("@vEmail", request.VEmail);
-                    command.Parameters.AddWithValue("@vRutaDoc", request.VRutaDoc);
+                    string rutaLimpia = !string.IsNullOrEmpty(request.VRutaDoc)
+                                                ? $"{_relativePath.TrimEnd('/', '\\')}/{Path.GetFileName(request.VRutaDoc)}"
+                                                : string.Empty; 
+                    command.Parameters.AddWithValue("@vRutaDoc", rutaLimpia);
+                    //command.Parameters.AddWithValue("@vRutaDoc", request.VRutaDoc);
                     command.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                     command.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                     command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
@@ -726,6 +678,7 @@ namespace MesaPartesDigital.Services
                     command.Parameters.AddWithValue("@vReferencia", request.VReferencia);
                     command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
                     command.Parameters.AddWithValue("@btipo", request.BTipo);
+
                     command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
 
                     // 2. Parámetro OUTPUT (ICodAsunto)
@@ -777,7 +730,11 @@ namespace MesaPartesDigital.Services
                 // Si es el principal (0), enviamos NULL. Si es anexo (1), enviamos el ID capturado.
                 cmd.Parameters.AddWithValue("@iCodAsunto", (object)codAsuntoActual ?? DBNull.Value);
 
-                cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
+                string rutaLimpia = !string.IsNullOrEmpty(archivo.VRutaDoc)
+                                                ? $"{_relativePath.TrimEnd('/', '\\')}/{Path.GetFileName(archivo.VRutaDoc)}"
+                                                : string.Empty;
+                cmd.Parameters.AddWithValue("@vRutaDoc", rutaLimpia);
+                //cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
                 cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                 cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                 cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);

@@ -1,3 +1,4 @@
+using MesaPartesDigital.Api.Models;
 using MesaPartesDigital.Data;
 using MesaPartesDigital.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -47,6 +48,9 @@ builder.Services.AddScoped<DocumentoService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<FileStorageService>();
+builder.Services.Configure<StorageSettings>(
+    builder.Configuration.GetSection("Storage"));
+
 
 // 5. CORS
 builder.Services.AddCors(options =>
