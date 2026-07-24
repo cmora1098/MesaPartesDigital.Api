@@ -1,0 +1,1475 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Mesa de Partes Digital API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/archivos/subir": {
+      "post": {
+        "tags": [
+          "Archivos"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "archivo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "archivo": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/autenticacion/login": {
+      "post": {
+        "tags": [
+          "Autenticacion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/autenticacion/credenciales": {
+      "post": {
+        "tags": [
+          "Autenticacion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredencialesRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredencialesRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredencialesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/catalogos/tipos-persona": {
+      "get": {
+        "tags": [
+          "Catalogos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/catalogos/tipos-documento": {
+      "get": {
+        "tags": [
+          "Catalogos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/catalogos/tipos-documento-persona": {
+      "get": {
+        "tags": [
+          "Catalogos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/catalogos/estados": {
+      "get": {
+        "tags": [
+          "Catalogos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/correos/otp": {
+      "post": {
+        "tags": [
+          "Correos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/correos/verificar": {
+      "post": {
+        "tags": [
+          "Correos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/correos/cargo": {
+      "post": {
+        "tags": [
+          "Correos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CargoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CargoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CargoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/correos/confirmacion": {
+      "post": {
+        "tags": [
+          "Correos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmacionRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmacionRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmacionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/tipos-documento": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/registro-natural": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaNaturalHomeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaNaturalHomeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaNaturalHomeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/registro-juridica": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaJuridicaHomeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaJuridicaHomeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaJuridicaHomeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/historial/{personaId}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "personaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/DatosRegistrados/{id}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/actualizar-datos-expediente": {
+      "put": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/actualizar-datos-documento": {
+      "put": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsuntoEdicionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/ver-archivo/{id}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/actualizar-documento-principal/{idAsunto}": {
+      "put": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "idAsunto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "archivo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "archivo": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/listar-anexos/{iCodAsunto}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodAsunto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnexoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnexoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnexoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/documentos/ver-archivo-anexo/{iCodDoc}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodDoc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/eliminar-anexo/{iCodDoc}": {
+      "delete": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodDoc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/registrar-anexos/{iCodAsunto}": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodAsunto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ArchivoAdjunto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ArchivoAdjunto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ArchivoAdjunto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/cambiar-estado/{iCodAsunto}": {
+      "put": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "iCodAsunto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/registro-tramite-natural": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersNaturalDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersNaturalDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersNaturalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/documentos/registro-tramite-juridica": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersJuridicaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersJuridicaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegTramitePersJuridicaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/personas/natural": {
+      "get": {
+        "tags": [
+          "Personas"
+        ],
+        "parameters": [
+          {
+            "name": "tipoDocumento",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "documento",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/personas/juridica": {
+      "get": {
+        "tags": [
+          "Personas"
+        ],
+        "parameters": [
+          {
+            "name": "documento",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ubigeo/departamentos": {
+      "get": {
+        "tags": [
+          "Ubigeo"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ubigeo/provincias/{codigo}": {
+      "get": {
+        "tags": [
+          "Ubigeo"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ubigeo/distritos/{codigo}": {
+      "get": {
+        "tags": [
+          "Ubigeo"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ubigeo": {
+      "get": {
+        "tags": [
+          "Ubigeo"
+        ],
+        "parameters": [
+          {
+            "name": "codigoPadre",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnexoDto": {
+        "type": "object",
+        "properties": {
+          "iCodDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "iCodAsunto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "ruta": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArchivoAdjunto": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipo": {
+            "type": "string",
+            "nullable": true
+          },
+          "tamano": {
+            "type": "string",
+            "nullable": true
+          },
+          "contenido": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "fileBrowser": {
+            "$ref": "#/components/schemas/IBrowserFile"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArchivoRequest": {
+        "type": "object",
+        "properties": {
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArchivoRequestPJH": {
+        "type": "object",
+        "properties": {
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArchivoRequestTPJ": {
+        "type": "object",
+        "properties": {
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArchivoRequestTPN": {
+        "type": "object",
+        "properties": {
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AsuntoEdicionDto": {
+        "type": "object",
+        "properties": {
+          "iCodAsunto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "asuntoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "cutTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoDependencia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombreDependencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "correoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nroDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "foliosDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaDocumento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "refDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "rutaDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoTramite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rucTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "cambiosRealizados": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CargoRequest": {
+        "type": "object",
+        "properties": {
+          "correo": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoTramite": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConfirmacionRequest": {
+        "type": "object",
+        "properties": {
+          "correo": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoTramite": {
+            "type": "string",
+            "nullable": true
+          },
+          "asunto": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CredencialesRequest": {
+        "type": "object",
+        "properties": {
+          "documento": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoOtp": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoAccion": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IBrowserFile": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "contentType": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "documento": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OtpRequest": {
+        "type": "object",
+        "properties": {
+          "correo": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonaJuridicaHomeDto": {
+        "type": "object",
+        "properties": {
+          "vRucEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "vRazonSocial": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodTipoDocPer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vDocPer": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "vTelefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "vDireccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "vCodDistrito": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vNroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "dFecDoc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vNombreAsunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "vReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNroPagFolios": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "archivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchivoRequestPJH"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonaNaturalHomeDto": {
+        "type": "object",
+        "properties": {
+          "iCodTipoDocPer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vDocPer": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "vTelefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "vDireccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "vCodDistrito": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vNroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "dFecDoc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vNombreAsunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "vReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNroPagFolios": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "archivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchivoRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegTramitePersJuridicaDto": {
+        "type": "object",
+        "properties": {
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "vRucEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "vRazonSocial": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodAsunto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vNroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "dFecDoc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vNombreAsunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "vReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNroPagFolios": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          },
+          "vLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "archivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchivoRequestTPJ"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegTramitePersNaturalDto": {
+        "type": "object",
+        "properties": {
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodAsunto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vRutaDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "iCodTipoDoc": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vNroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "dFecDoc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vNombreAsunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "vReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNroPagFolios": {
+            "type": "string",
+            "nullable": true
+          },
+          "bTipo": {
+            "type": "boolean"
+          },
+          "vLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "archivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchivoRequestTPN"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
