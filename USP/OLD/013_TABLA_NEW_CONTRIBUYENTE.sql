@@ -14,7 +14,8 @@ CREATE TABLE T_Contribuyente (
     lote VARCHAR(20) NULL,
     departamento VARCHAR(20) NULL,
     manzana VARCHAR(20) NULL,
-    kilometro VARCHAR(20) NULL
+    kilometro VARCHAR(20) NULL,
+    registro_manual BIT DEFAULT 1
 );
 GO
 

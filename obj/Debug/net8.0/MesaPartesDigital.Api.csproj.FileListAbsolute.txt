@@ -159,3 +159,4 @@ D:\Proyectos\NUEVA MESA DE PARTES\MpvApi\obj\Debug\net8.0\refint\MesaPartesDigit
 D:\Proyectos\NUEVA MESA DE PARTES\MpvApi\obj\Debug\net8.0\MesaPartesDigital.Api.pdb
 D:\Proyectos\NUEVA MESA DE PARTES\MpvApi\obj\Debug\net8.0\MesaPartesDigital.Api.genruntimeconfig.cache
 D:\Proyectos\NUEVA MESA DE PARTES\MpvApi\obj\Debug\net8.0\ref\MesaPartesDigital.Api.dll
+C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Debug\net8.0\swae.build.ex.cache

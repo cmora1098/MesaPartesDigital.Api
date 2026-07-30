@@ -12,7 +12,7 @@ GO
 -- Descripción: Obtiene el nombre/razón social de un contribuyente mediante su número de RUC
 --              consultando la tabla [dbo].[T_Contribuyente].
 -- ==========================================================================================
-ALTER PROCEDURE [dbo].[USP_PersonaJuridica_ObtenerPorRUC]
+CREATE OR ALTER PROCEDURE [dbo].[USP_PersonaJuridica_ObtenerPorRUC]
     @vRuc NVARCHAR(11)
 AS
 BEGIN
