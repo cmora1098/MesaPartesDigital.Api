@@ -1,50 +1,57 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Proyectos\\NUEVO\\",
+  "WorkspaceRootPath": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\services\\ubigeoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\ubigeoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\controllers\\ubigeocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\ubigeocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\models\\registrodocumentorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:models\\registrodocumentorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\models\\ubigeo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:models\\ubigeo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\models\\departamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:models\\departamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\controllers\\personascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\personascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\services\\documentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\documentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\controllers\\documentoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\controllers\\documentoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\documentoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\services\\tipodocumentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\models\\storagesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:models\\storagesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\services\\documentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\documentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\services\\filestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\filestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\controllers\\personascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\personascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\services\\ubigeoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\ubigeoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\controllers\\ubigeocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\ubigeocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\models\\ubigeo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:models\\ubigeo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\models\\departamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:models\\departamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\services\\tipodocumentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\tipodocumentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nuevo\\controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|d:\\proyectos\\nueva mesa de partes\\mpvapi\\controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\catalogoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\NUEVO\\Models\\RegistroDocumentoRequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,7 +61,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,115 +73,148 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Ubigeo.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Models\\Ubigeo.cs",
-              "RelativeDocumentMoniker": "Models\\Ubigeo.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Models\\Ubigeo.cs",
-              "RelativeToolTip": "Models\\Ubigeo.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-11T10:39:19.204Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Departamento.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Models\\Departamento.cs",
-              "RelativeDocumentMoniker": "Models\\Departamento.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Models\\Departamento.cs",
-              "RelativeToolTip": "Models\\Departamento.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-11T10:38:41.655Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "PersonasController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Controllers\\PersonasController.cs",
-              "RelativeDocumentMoniker": "Controllers\\PersonasController.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Controllers\\PersonasController.cs",
-              "RelativeToolTip": "Controllers\\PersonasController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-11T10:37:57.363Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UbigeoService.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Services\\UbigeoService.cs",
-              "RelativeDocumentMoniker": "Services\\UbigeoService.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Services\\UbigeoService.cs",
-              "RelativeToolTip": "Services\\UbigeoService.cs",
-              "ViewState": "AgIAAJcAAAAAAAAAAAApwK0AAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-11T10:34:37.152Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UbigeoController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Controllers\\UbigeoController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UbigeoController.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Controllers\\UbigeoController.cs",
-              "RelativeToolTip": "Controllers\\UbigeoController.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAAwwDAAAAA3AAAAAAAAAA==",
+              "Title": "StorageSettings.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Models\\StorageSettings.cs",
+              "RelativeDocumentMoniker": "Models\\StorageSettings.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Models\\StorageSettings.cs",
+              "RelativeToolTip": "Models\\StorageSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-11T10:34:27.369Z",
+              "WhenOpened": "2026-07-30T13:51:07.179Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "UbigeoService.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Services\\UbigeoService.cs",
+              "RelativeDocumentMoniker": "Services\\UbigeoService.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Services\\UbigeoService.cs",
+              "RelativeToolTip": "Services\\UbigeoService.cs",
+              "ViewState": "AgIAAJcAAAAAAAAAAAApwK0AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-11T10:34:37.152Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UbigeoController.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Controllers\\UbigeoController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UbigeoController.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Controllers\\UbigeoController.cs",
+              "RelativeToolTip": "Controllers\\UbigeoController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAwwDAAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-11T10:34:27.369Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\appsettings.json",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\appsettings.json",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAA4AAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2026-07-11T10:05:53.822Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "DocumentoService.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Services\\DocumentoService.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Services\\DocumentoService.cs",
               "RelativeDocumentMoniker": "Services\\DocumentoService.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Services\\DocumentoService.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Services\\DocumentoService.cs",
               "RelativeToolTip": "Services\\DocumentoService.cs",
-              "ViewState": "AgIAAOMAAAAAAAAAAAAuwPMAAABdAAAAAAAAAA==",
+              "ViewState": "AgIAAOMAAAAAAAAAAAAuwPMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-10T21:39:06.27Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 12,
               "Title": "RegistroDocumentoRequest.cs",
               "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Models\\RegistroDocumentoRequest.cs",
-              "RelativeDocumentMoniker": "Models\\RegistroDocumentoRequest.cs",
+              "RelativeDocumentMoniker": "..\\..\\NUEVO\\Models\\RegistroDocumentoRequest.cs",
               "ToolTip": "D:\\Proyectos\\NUEVO\\Models\\RegistroDocumentoRequest.cs",
-              "RelativeToolTip": "Models\\RegistroDocumentoRequest.cs",
+              "RelativeToolTip": "..\\..\\NUEVO\\Models\\RegistroDocumentoRequest.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAqwAwAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-10T21:36:01.719Z",
+              "WhenOpened": "2026-07-10T21:36:01.719Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DocumentosController.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Controllers\\DocumentosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DocumentosController.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Controllers\\DocumentosController.cs",
+              "RelativeToolTip": "Controllers\\DocumentosController.cs",
+              "ViewState": "AgIAAOgAAAAAAAAAAAAswAMBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-10T18:43:20.646Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 5,
+              "Title": "PersonasController.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Controllers\\PersonasController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PersonasController.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Controllers\\PersonasController.cs",
+              "RelativeToolTip": "Controllers\\PersonasController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-11T10:37:57.363Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FileStorageService.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Services\\FileStorageService.cs",
+              "RelativeDocumentMoniker": "Services\\FileStorageService.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Services\\FileStorageService.cs",
+              "RelativeToolTip": "Services\\FileStorageService.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAowGIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-30T13:30:02.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Departamento.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Models\\Departamento.cs",
+              "RelativeDocumentMoniker": "Models\\Departamento.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Models\\Departamento.cs",
+              "RelativeToolTip": "Models\\Departamento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-11T10:38:41.655Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Ubigeo.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Models\\Ubigeo.cs",
+              "RelativeDocumentMoniker": "Models\\Ubigeo.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Models\\Ubigeo.cs",
+              "RelativeToolTip": "Models\\Ubigeo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-11T10:39:19.204Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "CatalogosController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Controllers\\CatalogosController.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Controllers\\CatalogosController.cs",
               "RelativeDocumentMoniker": "Controllers\\CatalogosController.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Controllers\\CatalogosController.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Controllers\\CatalogosController.cs",
               "RelativeToolTip": "Controllers\\CatalogosController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAACDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -182,29 +222,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DocumentosController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Controllers\\DocumentosController.cs",
-              "RelativeDocumentMoniker": "Controllers\\DocumentosController.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Controllers\\DocumentosController.cs",
-              "RelativeToolTip": "Controllers\\DocumentosController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAACFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-10T18:43:20.646Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "TipoDocumentoService.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVO\\Services\\TipoDocumentoService.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Services\\TipoDocumentoService.cs",
               "RelativeDocumentMoniker": "Services\\TipoDocumentoService.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVO\\Services\\TipoDocumentoService.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MpvApi\\Services\\TipoDocumentoService.cs",
               "RelativeToolTip": "Services\\TipoDocumentoService.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAA1wBsAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-10T18:43:03.766Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-10T18:43:03.766Z"
             }
           ]
         }

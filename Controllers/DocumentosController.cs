@@ -4,6 +4,7 @@ using MesaPartesDigital.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Data;
 
 namespace MesaPartesDigital.Api.Controllers;
@@ -14,12 +15,17 @@ public sealed class DocumentosController : ControllerBase
 {
     private readonly DocumentoService _service;
     private readonly IEmailService _emailService;
+    private readonly StorageSettings _storage;
+    
+
+
 
     // Inyección de dependencias corregida
-    public DocumentosController(DocumentoService service, IEmailService emailService)
+    public DocumentosController(DocumentoService service, IEmailService emailService, IOptions<StorageSettings> storage)
     {
         _service = service;
         _emailService = emailService;
+        _storage = storage.Value;
     }
 
     [HttpGet("tipos-documento")]
@@ -163,25 +169,30 @@ public sealed class DocumentosController : ControllerBase
     [HttpGet("ver-archivo/{id:int}")]
     public async Task<IActionResult> VerArchivoPorId(int id)
     {
-        // 1. Obtenemos el registro mediante el servicio existente
         var asunto = await _service.ObtenerAsuntoParaEdicion(id);
 
-        if (asunto == null || string.IsNullOrEmpty(asunto.RutaDocumento))
+        if (asunto == null || string.IsNullOrWhiteSpace(asunto.RutaDocumento))
         {
             return NotFound(new { message = "El trámite o la ruta del documento no existen." });
         }
 
-        // 2. Limpieza de barras por seguridad operativa (local vs producción)
-        var rutaFisica = asunto.RutaDocumento.Replace("\\\\", "\\");
+        // REGDOC/archivo.pdf -> REGDOC\archivo.pdf
+        var rutaRelativa = asunto.RutaDocumento
+            .Replace('/', Path.DirectorySeparatorChar);
 
-        // 3. Validar existencia física del archivo en el servidor
+        // Ruta física
+        var rutaFisica = Path.Combine(_storage.PathView, rutaRelativa);
+
         if (!System.IO.File.Exists(rutaFisica))
         {
-            return NotFound(new { message = $"El archivo físico no se encuentra en el servidor: {rutaFisica}" });
+            return NotFound(new
+            {
+                message = $"El archivo físico no se encuentra en el servidor: {rutaFisica}"
+            });
         }
 
-        // 4. Retornar el flujo del PDF con su tipo MIME correcto
         var bytes = await System.IO.File.ReadAllBytesAsync(rutaFisica);
+
         return File(bytes, "application/pdf");
     }
 
@@ -226,14 +237,29 @@ public sealed class DocumentosController : ControllerBase
     [HttpGet("ver-archivo-anexo/{iCodDoc}")]
     public async Task<IActionResult> VerArchivoAnexo(int iCodDoc)
     {
-        string rutaFisica = await _service.ObtenerRutaPorId(iCodDoc);
+        var rutaRelativa = await _service.ObtenerRutaPorId(iCodDoc);
 
-        if (string.IsNullOrEmpty(rutaFisica) || !System.IO.File.Exists(rutaFisica))
+        if (string.IsNullOrWhiteSpace(rutaRelativa))
         {
-            return NotFound(new { mensaje = "El archivo físico no se encuentra en el servidor." });
+            return NotFound(new { mensaje = "No existe la ruta del archivo." });
+        }
+
+        // Normalizar separadores
+        rutaRelativa = rutaRelativa.Replace('/', Path.DirectorySeparatorChar);
+
+        // Construir la ruta física
+        var rutaFisica = Path.Combine(_storage.PathView, rutaRelativa);
+
+        if (!System.IO.File.Exists(rutaFisica))
+        {
+            return NotFound(new
+            {
+                mensaje = $"El archivo físico no se encuentra en el servidor: {rutaFisica}"
+            });
         }
 
         var bytesArchivo = await System.IO.File.ReadAllBytesAsync(rutaFisica);
+
         return File(bytesArchivo, "application/pdf");
     }
 
