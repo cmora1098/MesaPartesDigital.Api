@@ -1,11 +1,12 @@
 USE [BD_RCPDOC]
 GO
+/****** Objeto: StoredProcedure [dbo].[USP_ActualizarDocumentoPrincipal] Fecha de script: 31/07/2026 09:08:29 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[USP_ActualizarDocumentoPrincipal]
+CREATE OR ALTER PROCEDURE [dbo].[USP_ActualizarDocumentoPrincipal]
     @iCodAsunto INT,
     @vNuevaRutaDoc VARCHAR(MAX)
 AS
@@ -55,7 +56,7 @@ BEGIN
         FROM [dbo].[T_Documento]
         WHERE iCodAsunto = @iCodAsunto 
           AND btipo = 0
-        ORDER BY iCodDoc DESC; -- Toma el último registrado como base si hubiera historial previo
+        ORDER BY iCodDoc DESC; -- Toma el Ãºltimo registrado como base si hubiera historial previo
 
         COMMIT TRANSACTION;
     END TRY
@@ -64,4 +65,3 @@ BEGIN
         THROW;
     END CATCH
 END
-GO

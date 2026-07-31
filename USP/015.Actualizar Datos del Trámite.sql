@@ -1,5 +1,6 @@
 USE [BD_RCPDOC]
 GO
+/****** Objeto: StoredProcedure [dbo].[USP_ActualizarDatosTramite] Fecha de script: 31/07/2026 09:06:19 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -29,7 +30,7 @@ BEGIN
         WHERE iCodAsunto = @iCodAsunto;
     END
 
-    -- CASO 2: Persona JurÌdica (Actualiza RUC en T_Tramite y Correo en T_Asunto)
+    -- CASO 2: Persona Jur√≠dica (Actualiza RUC en T_Tramite y Correo en T_Asunto)
     ELSE IF @TipoTramite = 1
     BEGIN
         -- Actualizamos el correo en T_Asunto
@@ -37,7 +38,7 @@ BEGIN
         SET vMailSeguimiento = @CorreoTramite
         WHERE iCodAsunto = @iCodAsunto;
 
-        -- Actualizamos el RUC en T_Tramite vincul·ndolo a travÈs del iCodAsunto
+        -- Actualizamos el RUC en T_Tramite vincul√°ndolo a trav√©s del iCodAsunto
         UPDATE T
         SET T.vRUC = @RucTramite
         FROM [BD_RCPDOC].[dbo].[T_Tramite] T
@@ -47,8 +48,7 @@ BEGIN
     
     ELSE
     BEGIN
-        RAISERROR('El tipo de tr·mite no es v·lido.', 16, 1);
+        RAISERROR('El tipo de tr√°mite no es v√°lido.', 16, 1);
         RETURN;
     END
 END
-GO

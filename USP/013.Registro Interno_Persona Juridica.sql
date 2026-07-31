@@ -1,13 +1,13 @@
 USE [BD_RCPDOC]
 GO
-
+/****** Objeto: StoredProcedure [dbo].[USP_RegistroTramiteInternoPersonaJuridica] Fecha de script: 31/07/2026 09:00:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE OR ALTER PROCEDURE [dbo].[USP_RegistroTramiteInternoPersonaJuridica]
-    -- PARÁMETROS DE SESIÓN
+CREATE OR ALTER  PROCEDURE [dbo].[USP_RegistroTramiteInternoPersonaJuridica]
+    -- PARÃMETROS DE SESIÃ“N
 	 @iCodPer INT,               
      @vEmail VARCHAR(150),
 
@@ -38,7 +38,7 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-		-- 0. Validación de anexos (SOLO si btipo es 1, ya que 0 es el principal)
+		-- 0. ValidaciÃ³n de anexos (SOLO si btipo es 1, ya que 0 es el principal)
         -- Si es btipo 1 (anexo) y no trae asunto, es un error real.
         IF (@btipo = 1 AND @iCodAsunto IS NULL)
         BEGIN
@@ -50,16 +50,16 @@ BEGIN
         IF NOT EXISTS (SELECT 1 FROM dbo.T_Contribuyente WHERE ruc = @vRucEmpresa)
             INSERT INTO dbo.T_Contribuyente (ruc, nombre_razon_social) VALUES (@vRucEmpresa, UPPER(@vRazonSocial));
 
-        SELECT @iCodPerEmpresa = iCodPer FROM dbo.T_Persona WHERE iCodTipoDocPer = 2 AND vDocPer = @vRucEmpresa;
+        -- SELECT @iCodPerEmpresa = iCodPer FROM dbo.T_Persona WHERE iCodTipoDocPer = 2 AND vDocPer = @vRucEmpresa;
 
-        IF (@iCodPerEmpresa IS NULL)
-        BEGIN
-            INSERT INTO dbo.T_Persona (iCodTipoPer, iCodTipoDocPer, vDocPer, vEmpresa, vEmail, bActivo, bCorreoVerificado, iCodPerRepresentante, vPassword)
-            VALUES (2, 2, @vRucEmpresa, UPPER(@vRazonSocial), '', 1, 0, @iCodPerRepresentante, 'NO_APLICA');
-            SET @iCodPerEmpresa = SCOPE_IDENTITY();
-        END
+        -- IF (@iCodPerEmpresa IS NULL)
+        -- BEGIN
+           --  INSERT INTO dbo.T_Persona (iCodTipoPer, iCodTipoDocPer, vDocPer, vEmpresa, vEmail, bActivo, bCorreoVerificado, iCodPerRepresentante, vPassword)
+           --  VALUES (2, 2, @vRucEmpresa, UPPER(@vRazonSocial), '', 1, 0, @iCodPerRepresentante, 'NO_APLICA');
+           --  SET @iCodPerEmpresa = SCOPE_IDENTITY();
+        -- END
 		 
-        -- 1. Lógica de Asunto y Trámite (Solo si es documento principal)
+        -- 1. LÃ³gica de Asunto y TrÃ¡mite (Solo si es documento principal)
         IF (@btipo = 0)
         BEGIN
             SET @vAutoGenerado = 'AGRORURAL_' + SUBSTRING(CONVERT(VARCHAR(50), NEWID()), 1, 8);
@@ -78,7 +78,7 @@ BEGIN
             INSERT INTO dbo.T_Tramite (iCodTipoPer, iCodAsunto, vRUC)
             VALUES (1, @iCodAsunto, @vRucEmpresa);
         END
-		 -- 2. Inserción del Documento (Incluye todos los campos de tu lista)
+		 -- 2. InserciÃ³n del Documento (Incluye todos los campos de tu lista)
         INSERT INTO dbo.T_Documento (
             iCodPer, 
             iCodAsunto, 
@@ -87,7 +87,7 @@ BEGIN
             vNroDoc, 
             dFecDoc, 
             dFecRecepcion, 
-            vReferencia,     -- La referencia específica del documento
+            vReferencia,     -- La referencia especÃ­fica del documento
             vNroPagFolios, 
             vLink, 
             bActivo, 
@@ -123,8 +123,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage NVARCHAR(4000) = 'Error al registrar trámite: ' + ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(4000) = 'Error al registrar trÃ¡mite: ' + ERROR_MESSAGE();
         RAISERROR(@ErrorMessage, 16, 1);
     END CATCH
 END;
-GO

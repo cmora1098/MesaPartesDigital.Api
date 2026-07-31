@@ -1,12 +1,12 @@
 USE [BD_RCPDOC]
 GO
-
+/****** Objeto: StoredProcedure [dbo].[USP_RegistroTramiteInternoPersonaNatural] Fecha de script: 31/07/2026 08:34:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE OR ALTER PROCEDURE [dbo].[USP_RegistroTramiteInternoPersonaNatural]
+CREATE OR ALTER  PROCEDURE [dbo].[USP_RegistroTramiteInternoPersonaNatural]
     @iCodPer INT,               
     @vEmail VARCHAR(150),       
     @iCodAsunto INT OUTPUT,     
@@ -58,7 +58,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage NVARCHAR(4000) = 'Error al registrar tr·mite: ' + ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(4000) = 'Error al registrar tr√°mite: ' + ERROR_MESSAGE();
         RAISERROR(@ErrorMessage, 16, 1);
     END CATCH
 END;

@@ -1,5 +1,6 @@
 USE [BD_RCPDOC]
 GO
+/****** Objeto: StoredProcedure [dbo].[USP_ListarAnexosTramite] Fecha de script: 31/07/2026 09:07:52 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -21,4 +22,3 @@ BEGIN
     FROM [BD_RCPDOC].[dbo].[T_Documento]
     WHERE iCodAsunto = @iCodAsunto AND bActivo = 1 AND btipo = 1;
 END
-GO

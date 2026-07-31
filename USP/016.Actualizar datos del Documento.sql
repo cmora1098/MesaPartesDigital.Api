@@ -1,5 +1,6 @@
 USE [BD_RCPDOC]
 GO
+/****** Objeto: StoredProcedure [dbo].[USP_ActualizarDatosDocumentoExpediente] Fecha de script: 31/07/2026 09:07:01 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -41,4 +42,3 @@ BEGIN
         THROW;
     END CATCH
 END
-GO

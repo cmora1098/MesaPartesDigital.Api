@@ -1,6 +1,6 @@
 USE [BD_RCPDOC]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ObtenerDetalleTramite]    Script Date: 21/07/2026 11:59:41 ******/
+/****** Objeto: StoredProcedure [dbo].[USP_ObtenerDetalleTramite] Fecha de script: 31/07/2026 09:05:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -42,5 +42,3 @@ BEGIN
     WHERE  D.btipo = 0 AND D.bActivo= 1 AND
 	A.iCodAsunto = @iCodAsunto;
 END
-GO
- 
