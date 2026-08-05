@@ -18,7 +18,8 @@ namespace MesaPartesDigital.Api.Models
         public string VNroPagFolios { get; set; } = string.Empty;
         public bool BTipo { get; set; }                          // 1=Principal, 0=Anexo
         public string? VLink { get; set; }                       // Campo opcional incluido en el SP
-          
+        public bool AceptaTerminos { get; set; }
+        public bool AceptaDatosPersonales { get; set; }
         public List<ArchivoRequestTPN> Archivos { get; set; } = new(); 
     }
 

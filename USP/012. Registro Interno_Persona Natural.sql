@@ -1,12 +1,11 @@
 USE [BD_RCPDOC]
 GO
-/****** Objeto: StoredProcedure [dbo].[USP_RegistroTramiteInternoPersonaNatural] Fecha de script: 31/07/2026 08:34:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE OR ALTER  PROCEDURE [dbo].[USP_RegistroTramiteInternoPersonaNatural]
+CREATE OR ALTER PROCEDURE [dbo].[USP_RegistroTramiteInternoPersonaNatural]
     @iCodPer INT,               
     @vEmail VARCHAR(150),       
     @iCodAsunto INT OUTPUT,     
@@ -18,7 +17,9 @@ CREATE OR ALTER  PROCEDURE [dbo].[USP_RegistroTramiteInternoPersonaNatural]
     @vReferencia VARCHAR(MAX),  
     @vNroPagFolios VARCHAR(50),
     @btipo BIT,                 
-    @vLink VARCHAR(MAX) = NULL
+    @vLink VARCHAR(MAX) = NULL,
+    @bAceptaTerminos BIT,
+    @bAceptaDatosPersonales BIT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -37,8 +38,9 @@ BEGIN
             
             SET @iCodAsunto = SCOPE_IDENTITY();
 
-            INSERT INTO dbo.T_Tramite (iCodTipoPer, iCodAsunto, vRUC)
-            VALUES (2, @iCodAsunto, NULL);
+            -- Se incluyen los campos de aceptación en T_Tramite
+            INSERT INTO dbo.T_Tramite (iCodTipoPer, iCodAsunto, vRUC, bAceptaTerminos, bAceptaDatosPersonales)
+            VALUES (2, @iCodAsunto, NULL, @bAceptaTerminos, @bAceptaDatosPersonales);
         END
 
         INSERT INTO dbo.T_Documento (iCodPer, iCodAsunto, vRutaDoc, iCodTipoDoc, vNroDoc, dFecDoc, dFecRecepcion, vReferencia, vNroPagFolios, vLink, bActivo, dtFechaCargaArchivo, btipo)
@@ -62,3 +64,4 @@ BEGIN
         RAISERROR(@ErrorMessage, 16, 1);
     END CATCH
 END;
+GO

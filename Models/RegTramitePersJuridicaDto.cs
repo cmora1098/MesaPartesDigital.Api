@@ -25,6 +25,9 @@
         public bool BTipo { get; set; } // 1=Principal, 0=Anexo
         public string? VLink { get; set; }
 
+        public bool AceptaTerminos { get; set; }
+        public bool AceptaDatosPersonales { get; set; }
+
         // V. COLECCIÓN DE ARCHIVOS
         // Esta lista se usa en el Controlador para iterar y registrar cada documento
         public List<ArchivoRequestTPJ> Archivos { get; set; } = new();

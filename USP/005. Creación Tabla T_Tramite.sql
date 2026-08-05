@@ -12,3 +12,11 @@ CREATE TABLE dbo.T_Tramite (
     vRUC NCHAR(11) NULL,
     CONSTRAINT PK_T_Tramite PRIMARY KEY CLUSTERED (iCod_tramite)
 );
+
+
+-- Agregando los campos en formato BIT para los términos y el tratamiento de datos
+ALTER TABLE dbo.T_Tramite
+ADD 
+    bAceptaTerminos BIT NOT NULL CONSTRAINT DF_T_Tramite_AceptaTerminos DEFAULT 0,
+    bAceptaDatosPersonales BIT NOT NULL CONSTRAINT DF_T_Tramite_AceptaDatosPersonales DEFAULT 0;
+GO

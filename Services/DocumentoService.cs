@@ -128,9 +128,8 @@ namespace MesaPartesDigital.Services
                 throw;
             }
         }
-        
-        // MANTENIDO: Registro Persona Natural Externa
-        public async Task<RegistroDocumentoResponse> RegistroPersonaNatural_Home(PersonaNaturalHomeDto request)
+
+         public async Task<RegistroDocumentoResponse> RegistroPersonaNatural_Home(PersonaNaturalHomeDto request)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -158,25 +157,22 @@ namespace MesaPartesDigital.Services
                 cmd.Parameters.AddWithValue("@vCodDistrito", request.VCodDistrito);
 
                 // Parámetros del Documento
-                // En la primera vuelta (principal) será null, en las siguientes será el ID generado
                 cmd.Parameters.AddWithValue("@iCodAsunto", (object)codAsuntoActual ?? DBNull.Value);
                 string rutaLimpia = !string.IsNullOrEmpty(archivo.VRutaDoc)
                                                ? $"{_relativePath.TrimEnd('/', '\\')}/{Path.GetFileName(archivo.VRutaDoc)}"
                                                : string.Empty;
                 cmd.Parameters.AddWithValue("@vRutaDoc", rutaLimpia);
-                //cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
                 cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                 cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                 cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
                 cmd.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
-
-                // Lógica de Referencia: Si es principal (false) usa la referencia del form, si es anexo usa "ANEXO"
-                //cmd.Parameters.AddWithValue("@vReferencia", !archivo.BTipo ? request.VReferencia : "ANEXO");
-
                 cmd.Parameters.AddWithValue("@vReferencia", request.VReferencia);
-
                 cmd.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
                 cmd.Parameters.AddWithValue("@btipo", archivo.BTipo);
+
+                // PARÁMETROS BIT: C# los maneja como bool y SQL Server los recibe como BIT de forma nativa
+                cmd.Parameters.AddWithValue("@bAceptaTerminos", request.AceptaTerminos);
+                cmd.Parameters.AddWithValue("@bAceptaDatosPersonales", request.AceptaDatosPersonales);
 
                 using var reader = await cmd.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
@@ -233,20 +229,19 @@ namespace MesaPartesDigital.Services
                                               ? $"{_relativePath.TrimEnd('/', '\\')}/{Path.GetFileName(archivo.VRutaDoc)}"
                                               : string.Empty;
                 cmd.Parameters.AddWithValue("@vRutaDoc", rutaLimpia);
-                //cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
                 cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                 cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                 cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
                 cmd.Parameters.AddWithValue("@vNombreAsunto", request.VNombreAsunto);
-
-                // Lógica de Referencia: Si es principal (false) usa la referencia del form, si es anexo usa "ANEXO"
-                //cmd.Parameters.AddWithValue("@vReferencia", !archivo.BTipo ? request.VReferencia : "ANEXO");
-
                 cmd.Parameters.AddWithValue("@vReferencia", request.VReferencia);
-
                 cmd.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
                 cmd.Parameters.AddWithValue("@btipo", archivo.BTipo); // 0=Principal, 1=Anexo
-                 
+                //cmd.Parameters.AddWithValue("@vLink", (object)archivo.VLink ?? DBNull.Value);
+
+                // IV. Parámetros de Aceptación corregidos (Apuntando al DTO real sin la 'B')
+                cmd.Parameters.AddWithValue("@bAceptaTerminos", request.AceptaTerminos);
+                cmd.Parameters.AddWithValue("@bAceptaDatosPersonales", request.AceptaDatosPersonales);
+
                 using var reader = await cmd.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
@@ -648,9 +643,7 @@ namespace MesaPartesDigital.Services
             }
             return null;
         }
-
-
-
+         
         //// MANTENIDO: Trámite Interno Persona Natural
         public async Task<RegistroDocumentoResponseTPN> RegistroTramiteInterno_PersNatural(RegTramitePersNaturalDto request)
         {
@@ -668,9 +661,8 @@ namespace MesaPartesDigital.Services
                     command.Parameters.AddWithValue("@vEmail", request.VEmail);
                     string rutaLimpia = !string.IsNullOrEmpty(request.VRutaDoc)
                                                 ? $"{_relativePath.TrimEnd('/', '\\')}/{Path.GetFileName(request.VRutaDoc)}"
-                                                : string.Empty; 
+                                                : string.Empty;
                     command.Parameters.AddWithValue("@vRutaDoc", rutaLimpia);
-                    //command.Parameters.AddWithValue("@vRutaDoc", request.VRutaDoc);
                     command.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                     command.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                     command.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
@@ -678,14 +670,17 @@ namespace MesaPartesDigital.Services
                     command.Parameters.AddWithValue("@vReferencia", request.VReferencia);
                     command.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
                     command.Parameters.AddWithValue("@btipo", request.BTipo);
-
                     command.Parameters.AddWithValue("@vLink", (object)request.VLink ?? DBNull.Value);
+
+                    // Nuevos parámetros de Aceptación (Asegúrate de que tu DTO RegTramitePersNaturalDto tenga estas propiedades)
+                    command.Parameters.AddWithValue("@bAceptaTerminos", request.AceptaTerminos);
+                    command.Parameters.AddWithValue("@bAceptaDatosPersonales", request.AceptaDatosPersonales);
 
                     // 2. Parámetro OUTPUT (ICodAsunto)
                     var pAsunto = new SqlParameter("@iCodAsunto", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.InputOutput,
-                        Value = request.ICodAsunto // Si es anexo, aquí vendrá el ID padre
+                        Value = (object)request.ICodAsunto ?? DBNull.Value // Si es anexo, aquí vendrá el ID padre
                     };
                     command.Parameters.Add(pAsunto);
 
@@ -734,7 +729,6 @@ namespace MesaPartesDigital.Services
                                                 ? $"{_relativePath.TrimEnd('/', '\\')}/{Path.GetFileName(archivo.VRutaDoc)}"
                                                 : string.Empty;
                 cmd.Parameters.AddWithValue("@vRutaDoc", rutaLimpia);
-                //cmd.Parameters.AddWithValue("@vRutaDoc", archivo.VRutaDoc);
                 cmd.Parameters.AddWithValue("@iCodTipoDoc", request.ICodTipoDoc);
                 cmd.Parameters.AddWithValue("@vNroDoc", request.VNroDoc);
                 cmd.Parameters.AddWithValue("@dFecDoc", request.DFecDoc);
@@ -742,6 +736,10 @@ namespace MesaPartesDigital.Services
                 cmd.Parameters.AddWithValue("@vReferencia", !archivo.BTipo ? request.VReferencia : "ANEXO");
                 cmd.Parameters.AddWithValue("@vNroPagFolios", request.VNroPagFolios);
                 cmd.Parameters.AddWithValue("@btipo", archivo.BTipo ? 1 : 0);
+
+                // NUEVOS PARÁMETROS: Términos y Condiciones / Tratamiento de Datos Personales
+                cmd.Parameters.AddWithValue("@bAceptaTerminos", request.AceptaTerminos);
+                cmd.Parameters.AddWithValue("@bAceptaDatosPersonales", request.AceptaDatosPersonales);
 
                 using var reader = await cmd.ExecuteReaderAsync();
                 if (await reader.ReadAsync())

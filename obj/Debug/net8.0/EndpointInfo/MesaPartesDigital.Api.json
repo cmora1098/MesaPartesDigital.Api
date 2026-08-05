@@ -1249,6 +1249,12 @@
             "type": "string",
             "nullable": true
           },
+          "aceptaTerminos": {
+            "type": "boolean"
+          },
+          "aceptaDatosPersonales": {
+            "type": "boolean"
+          },
           "iCodPer": {
             "type": "integer",
             "format": "int32",
@@ -1327,6 +1333,12 @@
             "type": "string",
             "nullable": true
           },
+          "aceptaTerminos": {
+            "type": "boolean"
+          },
+          "aceptaDatosPersonales": {
+            "type": "boolean"
+          },
           "iCodPer": {
             "type": "integer",
             "format": "int32",
@@ -1400,6 +1412,12 @@
             "type": "string",
             "nullable": true
           },
+          "aceptaTerminos": {
+            "type": "boolean"
+          },
+          "aceptaDatosPersonales": {
+            "type": "boolean"
+          },
           "archivos": {
             "type": "array",
             "items": {
@@ -1459,6 +1477,12 @@
           "vLink": {
             "type": "string",
             "nullable": true
+          },
+          "aceptaTerminos": {
+            "type": "boolean"
+          },
+          "aceptaDatosPersonales": {
+            "type": "boolean"
           },
           "archivos": {
             "type": "array",

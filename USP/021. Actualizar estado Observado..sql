@@ -1,5 +1,10 @@
-USE [BD_RCPDOC]
+USE BD_RCPDOC;
 GO
+
+ALTER TABLE dbo.T_Asunto
+ADD dtFechaSubsanacion DATETIME NULL;
+GO
+
 /****** Objeto: StoredProcedure [dbo].[USP_CambiarEstadoTramite] Fecha de script: 31/07/2026 09:12:34 ******/
 SET ANSI_NULLS ON
 GO
@@ -15,7 +20,7 @@ BEGIN
     -- Actualizamos el estado solo si actualmente se encuentra en 5
     UPDATE [dbo].[T_Asunto]
     SET iCodEstado = 1,
-        dtFechaPendiente = GETDATE() -- Opcional: registra la fecha en que cambió a pendiente/activo si tu lógica lo requiere
+        dtFechaSubsanacion = GETDATE() -- Opcional: registra la fecha en que cambió a pendiente/activo si tu lógica lo requiere
     WHERE iCodAsunto = @iCodAsunto 
       AND iCodEstado = 5;
 

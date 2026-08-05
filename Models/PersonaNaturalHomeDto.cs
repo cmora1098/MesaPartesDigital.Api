@@ -23,6 +23,8 @@ namespace MesaPartesDigital.Models
         public string VNombreAsunto { get; set; } = string.Empty; // La Sumilla
         public string VReferencia { get; set; } = string.Empty;
         public string VNroPagFolios { get; set; } = string.Empty;
+        public bool AceptaTerminos { get; set; }
+        public bool AceptaDatosPersonales { get; set; }
 
         // --- 3. LISTA DE ARCHIVOS (Para T_Documento / Anexos) ---
         public int? ICodPer { get; set; }

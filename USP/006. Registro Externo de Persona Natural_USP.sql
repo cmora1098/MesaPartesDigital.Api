@@ -1,5 +1,6 @@
 USE [BD_RCPDOC]
 GO
+
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -23,7 +24,9 @@ CREATE OR ALTER PROCEDURE [dbo].[USP_RegistroPersonaNatural]
     @vNombreAsunto VARCHAR(MAX),
     @vReferencia VARCHAR(MAX),
     @vNroPagFolios VARCHAR(50),
-    @btipo BIT -- 0: Principal, 1: Anexo
+    @btipo BIT, -- 0: Principal, 1: Anexo
+    @bAceptaTerminos BIT,
+    @bAceptaDatosPersonales BIT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -93,8 +96,9 @@ BEGIN
     
             SET @iCodAsunto = SCOPE_IDENTITY();
 
-            INSERT INTO dbo.T_Tramite (iCodTipoPer, iCodAsunto, vRUC)
-            VALUES (2, @iCodAsunto, NULL);
+            -- ACTUALIZACIÓN: Se agregan los campos bAceptaTerminos y bAceptaDatosPersonales
+            INSERT INTO dbo.T_Tramite (iCodTipoPer, iCodAsunto, vRUC, bAceptaTerminos, bAceptaDatosPersonales)
+            VALUES (2, @iCodAsunto, NULL, @bAceptaTerminos, @bAceptaDatosPersonales);
         END
 
         -- 3. Inserción del Documento
@@ -115,3 +119,4 @@ BEGIN
         RAISERROR(@ErrMsg, 16, 1);
     END CATCH
 END;
+GO
