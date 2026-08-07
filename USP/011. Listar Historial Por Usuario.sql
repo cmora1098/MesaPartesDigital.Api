@@ -17,7 +17,8 @@ BEGIN
         A.vAutoGenerado AS Codigo,
         A.vNombreAsunto AS Asunto,
         E.vNombreEstado AS Estado,
-        CONVERT(VARCHAR(10), A.dtFechaCreacion, 103) AS Fecha
+        CONVERT(VARCHAR(10), A.dtFechaCreacion, 103) AS Fecha,
+        CONVERT(VARCHAR(10), A.dtFechaSubsanacion, 103) AS FechaSubsanacion
     FROM [BD_RCPDOC].[dbo].[T_Asunto] A
     INNER JOIN [BD_RCPDOC].[dbo].[T_Estado] E ON A.iCodEstado = E.iCodEstado
     WHERE A.iCodPer = @iCodPer

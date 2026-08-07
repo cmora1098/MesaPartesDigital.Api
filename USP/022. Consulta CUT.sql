@@ -15,3 +15,13 @@ BEGIN
         @intPeriodo = @intPeriodo;
 END
 GO
+
+
+USE BD_RCPDOC;
+GO
+
+-- Ejecutando el procedimiento puente con los valores solicitados
+EXEC dbo.USP_CONSULTA_CUT 
+    @intNroTramite = 2049, 
+    @intPeriodo = 2021;
+GO

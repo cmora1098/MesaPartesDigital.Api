@@ -459,6 +459,51 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.TramitesController",
+    "Method": "ConsultarCut",
+    "RelativePath": "api/Tramites/consultar-cut",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nroTramite",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "periodo",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MesaPartesDigital.Api.Models.TramiteConsultaDto, MesaPartesDigital.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
     "ContainingType": "MesaPartesDigital.Api.Controllers.UbigeoController",
     "Method": "ObtenerUbigeo",
     "RelativePath": "api/ubigeo",

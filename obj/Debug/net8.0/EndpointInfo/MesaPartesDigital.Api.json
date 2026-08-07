@@ -800,6 +800,85 @@
         }
       }
     },
+    "/api/Tramites/consultar-cut": {
+      "get": {
+        "tags": [
+          "Tramites"
+        ],
+        "parameters": [
+          {
+            "name": "nroTramite",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "periodo",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TramiteConsultaDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TramiteConsultaDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TramiteConsultaDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
     "/api/ubigeo/departamentos": {
       "get": {
         "tags": [
@@ -1354,6 +1433,33 @@
         },
         "additionalProperties": false
       },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
       "RegTramitePersJuridicaDto": {
         "type": "object",
         "properties": {
@@ -1489,6 +1595,60 @@
             "items": {
               "$ref": "#/components/schemas/ArchivoRequestTPN"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TramiteConsultaDto": {
+        "type": "object",
+        "properties": {
+          "ide_Documento": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cut": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "sede": {
+            "type": "string",
+            "nullable": true
+          },
+          "ventanilla": {
+            "type": "string",
+            "nullable": true
+          },
+          "fec_Ingreso": {
+            "type": "string",
+            "nullable": true
+          },
+          "nro_Doc": {
+            "type": "string",
+            "nullable": true
+          },
+          "rem_Emp": {
+            "type": "string",
+            "nullable": true
+          },
+          "rem_Per": {
+            "type": "string",
+            "nullable": true
+          },
+          "asunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "txt_Tiene": {
+            "type": "string",
+            "nullable": true
+          },
+          "ruta_Atencion": {
+            "type": "string",
             "nullable": true
           }
         },

@@ -56,6 +56,10 @@
               "target": "Package",
               "version": "[4.2.0, )"
             },
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.79, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[4.17.0, )"

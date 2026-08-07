@@ -160,3 +160,4 @@ D:\Proyectos\NUEVA MESA DE PARTES\MpvApi\obj\Debug\net8.0\MesaPartesDigital.Api.
 D:\Proyectos\NUEVA MESA DE PARTES\MpvApi\obj\Debug\net8.0\MesaPartesDigital.Api.genruntimeconfig.cache
 D:\Proyectos\NUEVA MESA DE PARTES\MpvApi\obj\Debug\net8.0\ref\MesaPartesDigital.Api.dll
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Debug\net8.0\swae.build.ex.cache
+C:\Users\cmora\source\repos\MesaPartesDigital.Api\bin\Debug\net8.0\Dapper.dll

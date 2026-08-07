@@ -1,4 +1,5 @@
 using MesaPartesDigital.Api.Models;
+using MesaPartesDigital.Api.Services;
 using MesaPartesDigital.Data;
 using MesaPartesDigital.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -48,6 +49,7 @@ builder.Services.AddScoped<DocumentoService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<FileStorageService>();
+builder.Services.AddScoped<TramiteService>();
 builder.Services.Configure<StorageSettings>(
     builder.Configuration.GetSection("Storage"));
 

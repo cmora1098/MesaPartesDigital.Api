@@ -285,7 +285,8 @@ namespace MesaPartesDigital.Services
                         Codigo = reader["Codigo"].ToString() ?? string.Empty,
                         Asunto = reader["Asunto"].ToString() ?? string.Empty,
                         Estado = reader["Estado"].ToString() ?? string.Empty,
-                        Fecha = reader["Fecha"].ToString() ?? string.Empty
+                        Fecha = reader["Fecha"].ToString() ?? string.Empty,
+                        FechaSubsanacion = reader["FechaSubsanacion"].ToString() ?? string.Empty
                     });
                 }
             }

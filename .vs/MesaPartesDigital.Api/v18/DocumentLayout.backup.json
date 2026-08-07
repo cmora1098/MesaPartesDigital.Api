@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.api\\services\\documentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\documentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.api\\services\\tramiteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:services\\tramiteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.api\\controllers\\tramitescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:controllers\\tramitescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.api\\models\\tramiteconsultadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:models\\tramiteconsultadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.api\\models\\personanaturalhomedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:models\\personanaturalhomedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{58C93D79-C166-4CDD-99FC-76CC3AFB3301}|MesaPartesDigital.Api.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.api\\controllers\\documentoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,51 +38,89 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DocumentoService.cs",
-              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Services\\DocumentoService.cs",
-              "RelativeDocumentMoniker": "Services\\DocumentoService.cs",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Services\\DocumentoService.cs",
-              "RelativeToolTip": "Services\\DocumentoService.cs",
-              "ViewState": "AgIAANkBAAAAAAAAAAAgwIUCAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "TramiteConsultaDto.cs",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Models\\TramiteConsultaDto.cs",
+              "RelativeDocumentMoniker": "Models\\TramiteConsultaDto.cs",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Models\\TramiteConsultaDto.cs",
+              "RelativeToolTip": "Models\\TramiteConsultaDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-05T20:41:38.099Z",
-              "IsPinned": true,
+              "WhenOpened": "2026-08-07T20:48:26.394Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T20:41:01.032Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "TramitesController.cs",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\TramitesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TramitesController.cs",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\TramitesController.cs",
+              "RelativeToolTip": "Controllers\\TramitesController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwB4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T20:39:30.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TramiteService.cs",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Services\\TramiteService.cs",
+              "RelativeDocumentMoniker": "Services\\TramiteService.cs",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Services\\TramiteService.cs*",
+              "RelativeToolTip": "Services\\TramiteService.cs*",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAqwCAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T20:36:38.911Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "PersonaNaturalHomeDto.cs",
               "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Models\\PersonaNaturalHomeDto.cs",
               "RelativeDocumentMoniker": "Models\\PersonaNaturalHomeDto.cs",
               "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Models\\PersonaNaturalHomeDto.cs",
               "RelativeToolTip": "Models\\PersonaNaturalHomeDto.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAcwBkAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-05T20:42:17.465Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "DocumentosController.cs",
               "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
               "RelativeDocumentMoniker": "Controllers\\DocumentosController.cs",
               "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
               "RelativeToolTip": "Controllers\\DocumentosController.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAwwDoAAABHAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-30T21:39:54.425Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -78,8 +128,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-07-11T10:05:53.822Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-11T10:05:53.822Z"
             }
           ]
         }
