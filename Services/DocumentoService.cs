@@ -550,34 +550,50 @@ namespace MesaPartesDigital.Services
         {
             try
             {
-                if (archivosNuevos == null || !archivosNuevos.Any()) return true;
+                if (archivosNuevos == null || !archivosNuevos.Any())
+                    return true;
+
+                // Asegurar que la carpeta exista
+                if (!Directory.Exists(_FTP))
+                {
+                    Directory.CreateDirectory(_FTP);
+                }
 
                 foreach (var archivo in archivosNuevos)
                 {
-                    // 1. Asegurar que la carpeta raíz exista
-                    if (!Directory.Exists(_FTP))
-                    {
-                        Directory.CreateDirectory(_FTP);
-                    }
+                    // Nombre limpio
+                    string nombreLimpio = archivo.Nombre.Replace(" ", "_");
 
-                    // 2. Generar nombre único y ruta completa en REGDOC
-                    string extension = Path.GetExtension(archivo.Nombre);
-                    string nombreLimpio = Path.GetFileNameWithoutExtension(archivo.Nombre).Replace(" ", "_");
-                    string nombreUnicoArchivo = $"{Guid.NewGuid()}__{nombreLimpio}{extension}";
-                    string rutaCompletaPC = Path.Combine(_FTP, nombreUnicoArchivo);
+                    // Nombre único, siguiendo la misma lógica
+                    string nombreUnico = $"{Guid.NewGuid():N}_{nombreLimpio}";
 
-                    // 3. Guardar el archivo físicamente en el disco usando los bytes
-                    await File.WriteAllBytesAsync(rutaCompletaPC, archivo.Contenido);
+                    // Ruta física donde realmente se guarda el archivo
+                    string rutaCompleta = Path.Combine(_FTP, nombreUnico);
 
-                    // 4. Ejecutar el Stored Procedure inteligente que clona los datos del documento principal
+                    // Guardar archivo físicamente
+                    await File.WriteAllBytesAsync(
+                        rutaCompleta,
+                        archivo.Contenido
+                    );
+
+                    // Ruta relativa que se guardará en BD
+                    // Ejemplo:
+                    // REGDOC/93b1ad94..._Verificacion_de_stock.pdf
+                    string rutaBD =
+                        $"{_relativePath.TrimEnd('/', '\\')}/{nombreUnico}";
+
+                    // Registrar el anexo
                     using var connection = new SqlConnection(_connectionString);
-                    using var command = new SqlCommand("USP_RegistrarAnexoTramite", connection)
+
+                    using var command = new SqlCommand(
+                        "USP_RegistrarAnexoTramite",
+                        connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
 
                     command.Parameters.AddWithValue("@iCodAsunto", iCodAsunto);
-                    command.Parameters.AddWithValue("@vRutaDoc", rutaCompletaPC);
+                    command.Parameters.AddWithValue("@vRutaDoc", rutaBD);
 
                     await connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -587,7 +603,10 @@ namespace MesaPartesDigital.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al registrar nuevos anexos: {ex.Message}");
+                Console.WriteLine(
+                    $"[DocumentoService] 🚨 Error al registrar nuevos anexos: {ex.Message}"
+                );
+
                 return false;
             }
         }

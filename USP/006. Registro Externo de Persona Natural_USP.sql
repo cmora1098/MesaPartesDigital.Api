@@ -60,8 +60,8 @@ BEGIN
 
         IF (@iCodPer IS NULL)
         BEGIN
-            INSERT INTO dbo.T_Persona (iCodTipoDocPer, vDocPer, vNombres, vApellidoPaterno, vApellidoMaterno, vEmail, vTelefono, bActivo, vDireccion, vCodDistrito, bCorreoVerificado)
-            VALUES (@iCodTipoDocPer, @vDocPer, 
+            INSERT INTO dbo.T_Persona (iCodTipoPer, iCodTipoDocPer, vDocPer, vNombres, vApellidoPaterno, vApellidoMaterno, vEmail, vTelefono, bActivo, vDireccion, vCodDistrito, bCorreoVerificado, vEmpresa, vPassword)
+            VALUES (1, @iCodTipoDocPer, @vDocPer, 
                     LEFT(UPPER(@vNombres), 50), 
                     LEFT(UPPER(@vApellidoPaterno), 50), 
                     LEFT(UPPER(@vApellidoMaterno), 50), 
@@ -70,7 +70,9 @@ BEGIN
                     1, 
                     LEFT(UPPER(@vDireccion), 250), 
                     LEFT(@vCodDistrito, 6), 
-                    1);
+                    1,
+                    '-',
+                    'NO_APLICA');
             SET @iCodPer = SCOPE_IDENTITY();
         END
         ELSE
