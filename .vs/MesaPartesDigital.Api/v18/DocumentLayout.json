@@ -34,9 +34,9 @@
               "Title": "DocumentosController.cs",
               "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
               "RelativeDocumentMoniker": "Controllers\\DocumentosController.cs",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs*",
-              "RelativeToolTip": "Controllers\\DocumentosController.cs*",
-              "ViewState": "AgIAAP8AAAAAAAAAAAAuwCQBAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
+              "RelativeToolTip": "Controllers\\DocumentosController.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAuwKUAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-25T18:06:08.377Z",
               "EditorCaption": ""
@@ -47,9 +47,9 @@
               "Title": "DocumentoService.cs",
               "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Services\\DocumentoService.cs",
               "RelativeDocumentMoniker": "Services\\DocumentoService.cs",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Services\\DocumentoService.cs*",
-              "RelativeToolTip": "Services\\DocumentoService.cs*",
-              "ViewState": "AgIAAAYBAAAAAAAAAAAxwKYBAAAyAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Services\\DocumentoService.cs",
+              "RelativeToolTip": "Services\\DocumentoService.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAEwAYBAABfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-25T18:02:25.246Z",
               "EditorCaption": ""
@@ -64,8 +64,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-08-10T13:43:58.529Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-10T13:43:58.529Z"
             },
             {
               "$type": "Document",

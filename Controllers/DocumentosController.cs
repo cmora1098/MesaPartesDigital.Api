@@ -16,10 +16,7 @@ public sealed class DocumentosController : ControllerBase
     private readonly DocumentoService _service;
     private readonly IEmailService _emailService;
     private readonly StorageSettings _storage;
-    
-
-
-
+     
     // Inyección de dependencias corregida
     public DocumentosController(DocumentoService service, IEmailService emailService, IOptions<StorageSettings> storage)
     {
@@ -234,34 +231,7 @@ public sealed class DocumentosController : ControllerBase
         return Ok(anexos);
     }
 
-    [HttpGet("ver-archivo-anexo/{iCodDoc}")]
-    //public async Task<IActionResult> VerArchivoAnexo(int iCodDoc)
-    //{
-    //    var rutaRelativa = await _service.ObtenerRutaPorId(iCodDoc);
-
-    //    if (string.IsNullOrWhiteSpace(rutaRelativa))
-    //    {
-    //        return NotFound(new { mensaje = "No existe la ruta del archivo." });
-    //    }
-
-    //    // Normalizar separadores
-    //    rutaRelativa = rutaRelativa.Replace('/', Path.DirectorySeparatorChar);
-
-    //    // Construir la ruta física
-    //    var rutaFisica = Path.Combine(_storage.PathView, rutaRelativa);
-
-    //    if (!System.IO.File.Exists(rutaFisica))
-    //    {
-    //        return NotFound(new
-    //        {
-    //            mensaje = $"El archivo físico no se encuentra en el servidor: {rutaFisica}"
-    //        });
-    //    }
-
-    //    var bytesArchivo = await System.IO.File.ReadAllBytesAsync(rutaFisica);
-
-    //    return File(bytesArchivo, "application/pdf");
-    //}
+    [HttpGet("ver-archivo-anexo/{iCodDoc}")] 
     public async Task<IActionResult> VerArchivoAnexo(int iCodDoc)
     {
         var rutaRelativa = await _service.ObtenerRutaPorId(iCodDoc);
