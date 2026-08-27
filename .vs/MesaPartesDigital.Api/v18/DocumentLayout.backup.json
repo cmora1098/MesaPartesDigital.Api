@@ -34,9 +34,9 @@
               "Title": "DocumentosController.cs",
               "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
               "RelativeDocumentMoniker": "Controllers\\DocumentosController.cs",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs*",
-              "RelativeToolTip": "Controllers\\DocumentosController.cs*",
-              "ViewState": "AgIAADIAAAAAAAAAAAAuwKUAAAAEAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
+              "RelativeToolTip": "Controllers\\DocumentosController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKUAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-25T18:06:08.377Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "Services\\DocumentoService.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAEwAYBAABfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-25T18:02:25.246Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-25T18:02:25.246Z"
             },
             {
               "$type": "Document",
