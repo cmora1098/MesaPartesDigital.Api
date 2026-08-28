@@ -12,13 +12,9 @@ namespace MesaPartesDigital.Services
 {
     public class DocumentoService
     {
-        //private readonly string _FTP = @"C:\MesaDePartesLocal\Archivos";
-        //private readonly string _FTP = @"C:\MesaDePartesLocal\REGDOC";
-        
         private readonly string _FTP;
         private readonly string _connectionString;
         private readonly string _relativePath;
-
 
         public DocumentoService(IConfiguration configuration, IOptions<StorageSettings> storageOptions)
         {
@@ -93,41 +89,41 @@ namespace MesaPartesDigital.Services
         }
 
         // 🟢 Guardado de Base64 (Sin estructura Año/Mes)
-        public async Task<string> GuardarArchivoEnPCAsync(string nombreArchivo, string base64Data)
-        {
-            if (string.IsNullOrEmpty(base64Data)) return null;
+        //public async Task<string> GuardarArchivoEnPCAsync(string nombreArchivo, string base64Data)
+        //{
+        //    if (string.IsNullOrEmpty(base64Data)) return null;
 
-            try
-            {
-                if (!Directory.Exists(_FTP))
-                {
-                    Directory.CreateDirectory(_FTP);
-                }
+        //    try
+        //    {
+        //        if (!Directory.Exists(_FTP))
+        //        {
+        //            Directory.CreateDirectory(_FTP);
+        //        }
 
-                if (base64Data.Contains(","))
-                {
-                    base64Data = base64Data.Split(',')[1];
-                }
+        //        if (base64Data.Contains(","))
+        //        {
+        //            base64Data = base64Data.Split(',')[1];
+        //        }
 
-                byte[] archivoBytes = Convert.FromBase64String(base64Data);
-                string nombreLimpio = nombreArchivo.Replace(" ", "_");
-                string nombreUnico = $"{Guid.NewGuid():N}_{nombreLimpio}";
+        //        byte[] archivoBytes = Convert.FromBase64String(base64Data);
+        //        string nombreLimpio = nombreArchivo.Replace(" ", "_");
+        //        string nombreUnico = $"{Guid.NewGuid():N}_{nombreLimpio}";
 
-                string rutaCompleta = Path.Combine(_FTP, nombreUnico);
+        //        string rutaCompleta = Path.Combine(_FTP, nombreUnico);
 
-                await File.WriteAllBytesAsync(rutaCompleta, archivoBytes);
+        //        await File.WriteAllBytesAsync(rutaCompleta, archivoBytes);
 
-                // Solución: Construir la ruta relativa limpia con '/'
-                var rutaBD = $"{_relativePath.TrimEnd('/', '\\')}/{nombreUnico}";
+        //        // Solución: Construir la ruta relativa limpia con '/'
+        //        var rutaBD = $"{_relativePath.TrimEnd('/', '\\')}/{nombreUnico}";
 
-                return rutaBD;
-            }
-            catch(Exception ex) 
-            {
-                Console.WriteLine($"[DocumentoService] 🚨 Error al decodificar y guardar Base64: {ex.Message}");
-                throw;
-            }
-        }
+        //        return rutaBD;
+        //    }
+        //    catch(Exception ex) 
+        //    {
+        //        Console.WriteLine($"[DocumentoService] 🚨 Error al decodificar y guardar Base64: {ex.Message}");
+        //        throw;
+        //    }
+        //}
 
          public async Task<RegistroDocumentoResponse> RegistroPersonaNatural_Home(PersonaNaturalHomeDto request)
         {
@@ -258,6 +254,7 @@ namespace MesaPartesDigital.Services
             }
             return respuesta;
         }
+
 
         // Historial y Editar Tramite
         public async Task<List<HistorialTramiteDto>> ObtenerHistorialTramitesAsync(int iCodPer)
@@ -777,5 +774,6 @@ namespace MesaPartesDigital.Services
             }
             return respuesta;
         }
+    
     }
 }

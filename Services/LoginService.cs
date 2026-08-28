@@ -21,6 +21,7 @@ namespace MesaPartesDigital.Services
             _configuration = configuration;
             _connectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
         }
+       
         private string ConvertirASha256(string textoPlano)
         {
             if (string.IsNullOrEmpty(textoPlano)) return string.Empty;
@@ -37,51 +38,7 @@ namespace MesaPartesDigital.Services
                 return builder.ToString();
             }
         }
-
-        //public async Task<LoginResultDto> ValidarCredencialesAsync(string documento, string password)
-        //{
-        //    var resultado = new LoginResultDto { Exitoso = false, Mensaje = "Credenciales incorrectas" };
-        //    string passwordHash = ConvertirASha256(password);
-
-        //    try
-        //    {
-        //        using (var conn = new SqlConnection(_connectionString))
-        //        {
-        //            await conn.OpenAsync();
-
-        //            using (var cmd = new SqlCommand("dbo.USP_Persona_ValidarLogin", conn))
-        //            {
-        //                cmd.CommandType = CommandType.StoredProcedure;
-        //                // CAMBIO: Asegúrate de que el SP acepte @vDocPer en lugar de @vEmail
-        //                cmd.Parameters.Add("@vDocPer", SqlDbType.VarChar, 20).Value = documento;
-        //                cmd.Parameters.Add("@vPassword", SqlDbType.VarChar, 64).Value = passwordHash;
-
-        //                using (var reader = await cmd.ExecuteReaderAsync())
-        //                {
-        //                    if (await reader.ReadAsync())
-        //                    {
-        //                        resultado.Exitoso = Convert.ToInt32(reader["Exitoso"]) == 1;
-        //                        resultado.Mensaje = reader["Mensaje"]?.ToString() ?? "Error desconocido";
-
-        //                        if (resultado.Exitoso)
-        //                        {
-        //                            resultado.ICodPer = reader["iCodPer"] != DBNull.Value ? Convert.ToInt32(reader["iCodPer"]) : 0;
-        //                            resultado.VNombreCompleto = reader["vNombreCompleto"]?.ToString() ?? "Usuario";
-        //                            // Opcional: Si el SP devuelve el DNI, guárdalo también
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        resultado.Exitoso = false;
-        //        resultado.Mensaje = $"Error técnico: {ex.Message}";
-        //    }
-        //    return resultado;
-        //}
-
+          
         public async Task<LoginResultDto> ValidarCredencialesAsync(string documento, string password)
         {
             var resultado = new LoginResultDto { Exitoso = false, Mensaje = "Credenciales incorrectas" };
@@ -160,7 +117,6 @@ namespace MesaPartesDigital.Services
             public string VNombreCompleto { get; set; } = string.Empty;
             public string Documento { get; set; } = string.Empty;
         }
-
 
         public async Task<GestionCredencialesResultDto> GestionarCredencialesAsync(string dni, string? codigoOtp, int tipoAccion)
         {
@@ -289,7 +245,6 @@ namespace MesaPartesDigital.Services
                 return false;
             }
         }
-
 
     }
 }

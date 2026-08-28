@@ -36,9 +36,9 @@
               "RelativeDocumentMoniker": "Controllers\\DocumentosController.cs",
               "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Controllers\\DocumentosController.cs",
               "RelativeToolTip": "Controllers\\DocumentosController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKUAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAKYAAAAAAAAAAAA1wN8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-25T18:06:08.377Z",
+              "WhenOpened": "2026-08-28T21:54:42.738Z",
               "EditorCaption": ""
             },
             {
@@ -49,9 +49,10 @@
               "RelativeDocumentMoniker": "Services\\DocumentoService.cs",
               "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Services\\DocumentoService.cs",
               "RelativeToolTip": "Services\\DocumentoService.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAEwAYBAABfAAAAAAAAAA==",
+              "ViewState": "AgIAAGICAAAAAAAAAAAwwAkDAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-25T18:02:25.246Z"
+              "WhenOpened": "2026-08-25T18:02:25.246Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -61,9 +62,10 @@
               "RelativeDocumentMoniker": "appsettings.json",
               "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-08-10T13:43:58.529Z"
+              "WhenOpened": "2026-08-10T13:43:58.529Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -73,9 +75,10 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAYwDQAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-10T13:43:54.571Z"
+              "WhenOpened": "2026-08-10T13:43:54.571Z",
+              "EditorCaption": ""
             }
           ]
         }
