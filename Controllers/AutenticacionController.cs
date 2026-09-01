@@ -5,7 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MesaPartesDigital.Api.Controllers;
 
@@ -18,21 +19,54 @@ public sealed class AutenticacionController(ILoginService service, IConfiguratio
 {
     // [HttpPost("login")] public async Task<IActionResult> Login(LoginRequest r) => Ok(await service.ValidarCredencialesAsync(r.Documento, r.Password));
 
+    //[HttpPost("login")]
+    //public async Task<IActionResult> Login(LoginRequest r)
+    //{ 
+    //    var resultado = await service.ValidarCredencialesAsync(r.Documento, r.Password);
+
+    //    if (!resultado.Exitoso)
+    //        return Unauthorized(new { mensaje = resultado.Mensaje });
+
+    //    resultado.Token = GenerarToken(resultado);
+
+    //    return Ok(resultado);
+    //}
+
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest r)
     {
-        // 1. Llamamos al servicio
         var resultado = await service.ValidarCredencialesAsync(r.Documento, r.Password);
 
         if (!resultado.Exitoso)
             return Unauthorized(new { mensaje = resultado.Mensaje });
 
-        // 2. Generamos el token y lo guardamos dentro del objeto resultado
+        // Generamos el token JWT (si tu frontend lo sigue usando)
         resultado.Token = GenerarToken(resultado);
 
-        // 3. Devolvemos el DTO completo (o un objeto con los datos que prefieras)
+        // Creamos la identidad para la cookie nativa de ASP.NET Core
+        var claims = new List<Claim> {
+            new Claim(ClaimTypes.NameIdentifier, resultado.ICodPer.ToString()),
+            new Claim(ClaimTypes.Name, resultado.VNombreCompleto),
+            new Claim(ClaimTypes.Email, resultado.VEmail ?? string.Empty)
+        };
+
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var authProperties = new AuthenticationProperties
+        {
+            IsPersistent = true,
+            ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
+        };
+
+        // Emitimos la cookie en el contexto HTTP
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity),
+            authProperties
+        );
+
         return Ok(resultado);
     }
+
     private string GenerarToken(LoginResultDto usuario)
     {
         var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
