@@ -2,55 +2,131 @@ using MesaPartesDigital.Api.Models;
 using MesaPartesDigital.Api.Services;
 using MesaPartesDigital.Data;
 using MesaPartesDigital.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configuración unificada de Cookies y JWT[cite: 6]
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "5f8a9e2d4b1c7f6a9e3d8b2c4f1a7d9e";
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
-.AddCookie(options =>
-{
-    options.Cookie.Name = ".MesaPartesDigital.Auth";
-    options.ExpireTimeSpan = TimeSpan.FromHours(8);
-    options.SlidingExpiration = true;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey)),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ClockSkew = TimeSpan.Zero // Elimina el tiempo de gracia extra al expirar
-    };
-});
 
-// 2. Controladores y Swagger[cite: 6]
+// ============================================================
+// 1. AUTENTICACIÓN JWT
+// ============================================================
+
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException(
+        "La configuración 'Jwt:Key' no está definida.");
+
+var key = Encoding.UTF8.GetBytes(jwtKey);
+
+
+builder.Services
+    .AddAuthentication(options =>
+    {
+        // El API utiliza JWT como esquema de autenticación.
+        options.DefaultAuthenticateScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+
+        options.DefaultChallengeScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
+                // ====================================================
+                // FIRMA
+                // ====================================================
+
+                ValidateIssuerSigningKey = true,
+
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(key),
+
+
+                // ====================================================
+                // ISSUER
+                // ====================================================
+                //
+                // Actualmente no utilizamos Issuer.
+                //
+
+                ValidateIssuer = false,
+
+
+                // ====================================================
+                // AUDIENCE
+                // ====================================================
+                //
+                // Actualmente no utilizamos Audience.
+                //
+
+                ValidateAudience = false,
+
+
+                // ====================================================
+                // EXPIRACIÓN
+                // ====================================================
+
+                ValidateLifetime = true,
+
+                // Sin tolerancia adicional.
+                //
+                // Si el JWT vence a las 10:15:00,
+                // a las 10:15:01 ya no es válido.
+                //
+
+                ClockSkew = TimeSpan.Zero
+            };
+    });
+
+
+builder.Services.AddAuthorization();
+
+
+// ============================================================
+// 2. CONTROLADORES Y SWAGGER
+// ============================================================
+
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Mesa de Partes Digital API", Version = "v1" });
+    options.SwaggerDoc(
+        "v1",
+        new OpenApiInfo
+        {
+            Title = "Mesa de Partes Digital API",
+            Version = "v1"
+        });
 });
 
-// 3. Base de Datos[cite: 6]
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 4. Inyección de Dependencias (Servicios)[cite: 6]
+// ============================================================
+// 3. BASE DE DATOS
+// ============================================================
+
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options =>
+        options.UseSqlServer(
+            builder.Configuration.GetConnectionString(
+                "DefaultConnection")));
+
+
+// ============================================================
+// 4. SERVICIOS
+// ============================================================
+
 builder.Services.AddMemoryCache();
+
 builder.Services.AddScoped<UbigeoService>();
 builder.Services.AddScoped<ContribuyenteService>();
 builder.Services.AddScoped<TipoPersonaService>();
@@ -58,38 +134,94 @@ builder.Services.AddScoped<TipoDocumentoService>();
 builder.Services.AddScoped<TipoDocPerService>();
 builder.Services.AddScoped<EstadoService>();
 builder.Services.AddScoped<DocumentoService>();
+
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
+
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<TramiteService>();
+
+builder.Services.AddScoped<IPersonaService, PersonaService>();
+    
 builder.Services.Configure<StorageSettings>(
     builder.Configuration.GetSection("Storage"));
 
-// 5. CORS[cite: 6]
+
+// ============================================================
+// 5. CORS
+// ============================================================
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Front", policy =>
-        policy.WithOrigins(builder.Configuration.GetSection("Cors:Origins").Get<string[]>() ?? [])
+    {
+        var origins =
+            builder.Configuration
+                .GetSection("Cors:Origins")
+                .Get<string[]>() ?? [];
+
+        policy
+            .WithOrigins(origins)
             .AllowAnyHeader()
-            .AllowAnyMethod());
+            .AllowAnyMethod();
+    });
 });
+
+
+// ============================================================
+// BUILD
+// ============================================================
 
 var app = builder.Build();
 
-// 6. Pipeline de la Aplicación[cite: 6]
+
+// ============================================================
+// 6. SWAGGER
+// ============================================================
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI();
 }
 
+
+// ============================================================
+// 7. HTTPS
+// ============================================================
+
 app.UseHttpsRedirection();
+
+
+// ============================================================
+// 8. CORS
+// ============================================================
+
 app.UseCors("Front");
 
-// 7. Autenticación y Autorización[cite: 6]
+
+// ============================================================
+// 9. AUTENTICACIÓN Y AUTORIZACIÓN
+// ============================================================
+
+// IMPORTANTE:
+// Authentication debe ejecutarse antes que Authorization.
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
+
+// ============================================================
+// 10. CONTROLADORES
+// ============================================================
+
 app.MapControllers();
+
+
+// ============================================================
+// 11. EJECUCIÓN
+// ============================================================
 
 app.Run();

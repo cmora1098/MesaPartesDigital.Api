@@ -24,7 +24,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "r",
+        "Name": "request",
         "Type": "MesaPartesDigital.Api.Controllers.CredencialesRequest",
         "IsRequired": true
       }
@@ -40,11 +40,21 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "r",
+        "Name": "request",
         "Type": "MesaPartesDigital.Api.Controllers.LoginRequest",
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.AutenticacionController",
+    "Method": "Renovar",
+    "RelativePath": "api/autenticacion/renovar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -416,6 +426,43 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.PersonaController",
+    "Method": "GetPersonaPorId",
+    "RelativePath": "api/Persona/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MesaPartesDigital.Api.Controllers.PersonaController",
+    "Method": "ActualizarPersona",
+    "RelativePath": "api/Persona/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "persona",
+        "Type": "MesaPartesDigital.Api.Models.PersonaDto",
         "IsRequired": true
       }
     ],

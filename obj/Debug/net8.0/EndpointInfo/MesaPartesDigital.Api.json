@@ -68,6 +68,18 @@
         }
       }
     },
+    "/api/autenticacion/renovar": {
+      "post": {
+        "tags": [
+          "Autenticacion"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/autenticacion/credenciales": {
       "post": {
         "tags": [
@@ -750,6 +762,69 @@
         }
       }
     },
+    "/api/Persona/{id}": {
+      "get": {
+        "tags": [
+          "Persona"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Persona"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/personas/natural": {
       "get": {
         "tags": [
@@ -1251,6 +1326,85 @@
             "nullable": true
           },
           "codigo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonaDto": {
+        "type": "object",
+        "properties": {
+          "iCodPer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "iCodTipoPer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "iCodTipoDocPer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "vDocPer": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vApellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "vNombreCompleto": {
+            "type": "string",
+            "nullable": true
+          },
+          "vEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "vTelefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "vEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "bActivo": {
+            "type": "boolean"
+          },
+          "vCodDistrito": {
+            "type": "string",
+            "nullable": true
+          },
+          "vDireccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "bCorreoVerificado": {
+            "type": "boolean"
+          },
+          "iCodPerRepresentante": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "vCodDepartamento": {
+            "type": "string",
+            "nullable": true
+          },
+          "vCodProvincia": {
             "type": "string",
             "nullable": true
           }

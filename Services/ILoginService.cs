@@ -16,6 +16,8 @@ namespace MesaPartesDigital.Services
         public string VNombreCompleto { get; set; } = string.Empty;
         public string VEmail { get; set; } = string.Empty;
         public string Token { get; set; }
+        public bool bCorreoVerificado { get; set; }
+
     }
 
     public class GestionCredencialesResultDto

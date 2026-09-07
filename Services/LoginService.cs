@@ -76,6 +76,7 @@ namespace MesaPartesDigital.Services
                                     };
 
                                     resultado.Token = GenerarTokenJwt(info);
+                                    resultado.bCorreoVerificado = (bool)reader["bCorreoVerificado"];
                                 }
                             }
                         }
