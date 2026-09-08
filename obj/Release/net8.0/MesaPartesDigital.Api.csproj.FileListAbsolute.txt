@@ -153,7 +153,6 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Release\net8.0\staticwebas
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Release\net8.0\staticwebassets.build.json.cache
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Release\net8.0\staticwebassets.development.json
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Release\net8.0\staticwebassets.build.endpoints.json
-C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Release\net8.0\swae.build.ex.cache
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Release\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Release\net8.0\MesaPart.2352AB13.Up2Date
 C:\Users\cmora\source\repos\MesaPartesDigital.Api\obj\Release\net8.0\MesaPartesDigital.Api.dll
