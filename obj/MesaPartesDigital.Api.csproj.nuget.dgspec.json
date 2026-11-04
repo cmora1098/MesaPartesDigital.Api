@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj": {}
+    "C:\\Users\\cmora\\source\\repos\\Old_\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj": {
+    "C:\\Users\\cmora\\source\\repos\\Old_\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj",
+        "projectUniqueName": "C:\\Users\\cmora\\source\\repos\\Old_\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj",
         "projectName": "MesaPartesDigital.Api",
-        "projectPath": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj",
+        "projectPath": "C:\\Users\\cmora\\source\\repos\\Old_\\MesaPartesDigital.Api\\MesaPartesDigital.Api.csproj",
         "packagesPath": "C:\\Users\\cmora\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Api\\obj\\",
+        "outputPath": "C:\\Users\\cmora\\source\\repos\\Old_\\MesaPartesDigital.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
